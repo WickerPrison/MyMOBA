@@ -204,9 +204,8 @@ public class KaladinAbilities : CharacterAbilities
         PlayerScript enemyScript = clickedTile.occupation.GetComponent<PlayerScript>();
         if(enemyScript != null && !enemyScript.gameObject.CompareTag(gameObject.tag))
         {
-            playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("SylSpear");
+            tokenAnimations.MeleeAttack(enemyScript.transform.position, SylSpearFinish);
         }
     }
 
@@ -234,9 +233,8 @@ public class KaladinAbilities : CharacterAbilities
         }
         else if(gravitationTargetSelected && clickedTile != null && clickedTile.selectable && !clickedTile.occupied)
         {
-            playerScript.FaceCharacter(currentTarget.transform);
             lashingTile = clickedTile;
-            animator.Play("Gravitation");
+            GravitationFinish();
         }
     }
 

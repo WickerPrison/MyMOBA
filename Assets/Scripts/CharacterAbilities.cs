@@ -10,6 +10,7 @@ public class CharacterAbilities : MonoBehaviour
     [System.NonSerialized] public TurnManager tm;
     [System.NonSerialized] public Pathfinding pathfinding;
     [System.NonSerialized] public MouseOverTiles mouseOverTiles;
+    [System.NonSerialized] public TokenAnimations tokenAnimations;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -19,6 +20,7 @@ public class CharacterAbilities : MonoBehaviour
         mouseOverTiles = im.gameObject.GetComponent<MouseOverTiles>();
         playerScript = GetComponent<PlayerScript>();
         pathfinding = GetComponent<Pathfinding>();
+        tokenAnimations = GetComponentInChildren<TokenAnimations>();
         SetupControls();
     }
 
