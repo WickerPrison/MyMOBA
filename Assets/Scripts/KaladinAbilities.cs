@@ -12,6 +12,7 @@ public class KaladinAbilities : CharacterAbilities
     [SerializeField] PathfindingParameters gravitationMovementParameters;
     [SerializeField] Animator animator;
     [SerializeField] Color stormlightColor;
+    StormlightAnimations stormlightAnimations;
     PlayerScript currentLivingShardplate;
     PlayerScript currentTarget;
     TileScript lashingTile;
@@ -33,6 +34,8 @@ public class KaladinAbilities : CharacterAbilities
     public override void Start()
     {
         base.Start();
+        stormlightAnimations = GetComponentInChildren<StormlightAnimations>();
+
         // spear attack cost and cooldown
         playerScript.actionPointCosts.Add(1);
         playerScript.maxAbilityCooldowns.Add(0);
@@ -214,6 +217,7 @@ public class KaladinAbilities : CharacterAbilities
         currentTarget.TakeDamage(sylSpearDamage);
         if (adhesionActive && currentTarget.rooted <= adhesionDuration)
         {
+            stormlightAnimations.EndStormlight();
             currentTarget.rooted = adhesionDuration;
             adhesionActive = false;
         }
@@ -250,6 +254,7 @@ public class KaladinAbilities : CharacterAbilities
         targetMovement.FollowPath();
         if(adhesionActive && currentTarget.rooted <= adhesionDuration)
         {
+            stormlightAnimations.EndStormlight();
             currentTarget.rooted = adhesionDuration;
             adhesionActive = false;
         }
@@ -265,7 +270,7 @@ public class KaladinAbilities : CharacterAbilities
             stormlight -= 2;
             uim.UpdateMana(stormlight, stormlightColor);
             adhesionActive = true;
-            animator.Play("Adhesion");
+            stormlightAnimations.StartStormlight();
         }
     }
 
