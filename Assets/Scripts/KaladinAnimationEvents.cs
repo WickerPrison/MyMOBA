@@ -23,6 +23,6 @@ public class KaladinAnimationEvents : MonoBehaviour
 
     public void SayTheWords()
     {
-        abilities.SayTheWordsFinal();
+        
     }
 }

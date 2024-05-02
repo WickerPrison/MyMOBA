@@ -27,7 +27,7 @@ public class GeneralEffects : MonoBehaviour
         StartCoroutine(BuffAnimation(armorSprite));
     }
 
-    IEnumerator BuffAnimation(SpriteRenderer sprite)
+    public IEnumerator BuffAnimation(SpriteRenderer sprite)
     {
         float fadeIn = 0.2f;
         float stay = 0.2f;

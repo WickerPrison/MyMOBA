@@ -649,6 +649,7 @@ Transform:
   - {fileID: 7830207993698740923}
   - {fileID: 4318790423522591117}
   - {fileID: 2443806052939512931}
+  - {fileID: 756635026589385011}
   m_Father: {fileID: 8527005745513367255}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1559,12 +1560,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7376139004690246089}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -0.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.053333335, y: 0.2493333, z: 0}
+  m_LocalScale: {x: 1.3333334, y: 1.3333334, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5493500839961913122}
-  m_RootOrder: 5
+  m_Father: {fileID: 159306290407938255}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5499213916719640777
 SpriteRenderer:
@@ -1606,7 +1607,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -10
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a2924906eedb5d843b1a449fb709f190, type: 3}
   m_Color: {r: 0.14901961, g: 0.5764706, b: 0.9960785, a: 0}
   m_FlipX: 0
@@ -2037,7 +2038,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7786404f7cb5b95408dae1bcc2f2ac1e, type: 3}
   - {fileID: 21300000, guid: bfc1c45306760da4197107d25ba0580a, type: 3}
   ultimateIcon: {fileID: 21300000, guid: dea5f769aebefa44384f38b170efdcd9, type: 3}
-  portrait: {fileID: 21300000, guid: 4e570bb03fb6e1642aff93c73e296405, type: 3}
+  portrait: {fileID: 21300000, guid: 7bd62df91a210284286cb081335d0f38, type: 3}
 --- !u!114 &2930388306707793749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2065,8 +2066,8 @@ MonoBehaviour:
   attackParameters: {fileID: 11400000, guid: a4511f1732fb89e4d8adfe9ce54e7494, type: 2}
   lashingParameters: {fileID: 11400000, guid: 74b52efc9edf8c44dbe1c3547685ad5a, type: 2}
   gravitationMovementParameters: {fileID: 11400000, guid: fc857a1d0c6d6f843af3cc8017c3e653, type: 2}
-  animator: {fileID: 0}
   stormlightColor: {r: 0.14901961, g: 0.5764706, b: 0.9960785, a: 1}
+  glyphSprite: {fileID: 5499213916719640777}
   maxStormlight: 10
   sylSpearDamage: 5
 --- !u!114 &-1102899229110459480
@@ -2298,7 +2299,6 @@ Transform:
   - {fileID: 4633332947816160658}
   - {fileID: 962238105402958459}
   - {fileID: 9072600111591679212}
-  - {fileID: 756635026589385011}
   m_Father: {fileID: 8527005745513367255}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

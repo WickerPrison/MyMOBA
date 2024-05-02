@@ -10,8 +10,9 @@ public class KaladinAbilities : CharacterAbilities
     [SerializeField] PathfindingParameters attackParameters;
     [SerializeField] PathfindingParameters lashingParameters;
     [SerializeField] PathfindingParameters gravitationMovementParameters;
-    [SerializeField] Animator animator;
     [SerializeField] Color stormlightColor;
+    [SerializeField] SpriteRenderer glyphSprite;
+    GeneralEffects generalEffects;
     StormlightAnimations stormlightAnimations;
     PlayerScript currentLivingShardplate;
     PlayerScript currentTarget;
@@ -35,6 +36,7 @@ public class KaladinAbilities : CharacterAbilities
     {
         base.Start();
         stormlightAnimations = GetComponentInChildren<StormlightAnimations>();
+        generalEffects = GetComponentInChildren<GeneralEffects>();
 
         // spear attack cost and cooldown
         playerScript.actionPointCosts.Add(1);
@@ -182,7 +184,7 @@ public class KaladinAbilities : CharacterAbilities
 
         if (playerScript.ultimateActive)
         {
-            SayTheWordsInitiate(clickedTile);
+            SayTheWords(clickedTile);
         }
 
         switch (playerScript.activeAbility)
@@ -292,23 +294,18 @@ public class KaladinAbilities : CharacterAbilities
         }
     }
 
-    void SayTheWordsInitiate(TileScript clickedTile)
+    void SayTheWords(TileScript clickedTile)
     {
         if(clickedTile.occupation == gameObject)
         {
             playerScript.ultimateActive = false;
             playerScript.ultimateCD = playerScript.maxUltimateCD;
-            animator.Play("SayTheWords");
+            playerScript.GetHealed(playerScript.maxHealth);
+            stormlight = maxStormlight;
+            uim.UpdateMana(stormlight, stormlightColor);
+            StartCoroutine(generalEffects.BuffAnimation(glyphSprite));
         }
     }
-
-    public void SayTheWordsFinal()
-    {
-        playerScript.GetHealed(playerScript.maxHealth);
-        stormlight = maxStormlight;
-        uim.UpdateMana(stormlight, stormlightColor);
-    }
-
 
     public override void ActivateAbility(int abilityID)
     {
