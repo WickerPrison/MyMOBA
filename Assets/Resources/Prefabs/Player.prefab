@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 5119521694792781110}
   - component: {fileID: 868826733715685099}
   - component: {fileID: 6629549671223582034}
+  - component: {fileID: -4327842072957563986}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -155,21 +156,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   tacticalSpeed: 0
-  turnMeter: 0
   naturalArmor: 0
-  armor: 0
+  maxHealth: 0
+  actionPointMax: 2
+  respawnTime: 2
+  movementCost: 1
+  maxUltimateCD: 0
+  ultimateAPCost: 0
+  myTeam: 0
   characterSprite: {fileID: 0}
   statusLibrary: {fileID: 11400000, guid: f94a239e3435de24295bb3c3ec25c97a, type: 2}
   abilityIcons: []
-  myTeam: 0
-  actionPoints: 0
-  movementCost: 1
-  actionPointMax: 2
-  health: 0
-  maxHealth: 0
-  respawnTime: 2
+  ultimateIcon: {fileID: 0}
   portrait: {fileID: 0}
-  allomancer: 0
 --- !u!114 &7320228504176433427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +216,18 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-4327842072957563986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4281369798411868335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24632a2238352584c9693a709331b7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4281369798510329675
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +352,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4651157656714594919, guid: bb790582f4bd15443af2272b5f182afa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075635408032326808, guid: bb790582f4bd15443af2272b5f182afa, type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

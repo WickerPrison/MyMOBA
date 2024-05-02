@@ -281,12 +281,14 @@ public class KaladinAbilities : CharacterAbilities
         {
             playerScript.abilityCooldowns[5] = playerScript.maxAbilityCooldowns[5];
             playerScript.ActivateAbility(0);
-            playerScript.livingShardplate = false;
+            currentLivingShardplate.livingShardplate = false;
             currentLivingShardplate.CalculateArmor();
+            currentLivingShardplate.GetComponent<CharacterEvents>().LoseArmor();
             allyScript.livingShardplate = true;
             currentLivingShardplate = allyScript;
             currentLivingShardplate.CalculateArmor();
-            animator.Play("Adhesion");
+            currentLivingShardplate.GetComponent<CharacterEvents>().GainArmor();
+            //animator.Play("Adhesion");
         }
     }
 
