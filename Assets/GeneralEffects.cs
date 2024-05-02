@@ -7,6 +7,9 @@ public class GeneralEffects : MonoBehaviour
     [SerializeField] Color buff;
     [SerializeField] Color deBuff;
     [SerializeField] SpriteRenderer armorSprite;
+    [SerializeField] SpriteRenderer turnMeterSprite;
+    [SerializeField] SpriteRenderer buffSprite;
+    [SerializeField] SpriteRenderer healSprite;
     CharacterEvents characterEvents;
     WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
 
@@ -25,6 +28,22 @@ public class GeneralEffects : MonoBehaviour
     {
         armorSprite.color = deBuff;
         StartCoroutine(BuffAnimation(armorSprite));
+    }
+
+    private void OnLoseTurnMeter(object sender, System.EventArgs e)
+    {
+        turnMeterSprite.color = deBuff;
+        StartCoroutine(BuffAnimation(turnMeterSprite));
+    }
+
+    private void OnBuff(object sender, System.EventArgs e)
+    {
+        StartCoroutine(BuffAnimation(buffSprite));
+    }
+
+    private void OnHeal(object sender, System.EventArgs e)
+    {
+        StartCoroutine(BuffAnimation(healSprite));
     }
 
     public IEnumerator BuffAnimation(SpriteRenderer sprite)
@@ -58,6 +77,9 @@ public class GeneralEffects : MonoBehaviour
     {
         characterEvents.OnGainArmor += OnGainArmor;
         characterEvents.OnLoseArmor += OnLoseArmor;
+        characterEvents.OnLoseTurnMeter += OnLoseTurnMeter;
+        characterEvents.OnBuff += OnBuff;
+        characterEvents.OnHeal += OnHeal;
     }
 
 
@@ -65,5 +87,8 @@ public class GeneralEffects : MonoBehaviour
     {
         characterEvents.OnGainArmor -= OnGainArmor;
         characterEvents.OnLoseArmor -= OnLoseArmor;
+        characterEvents.OnLoseTurnMeter -= OnLoseTurnMeter;
+        characterEvents.OnBuff -= OnBuff;
+        characterEvents.OnHeal -= OnHeal;
     }
 }

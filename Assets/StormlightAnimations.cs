@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class StormlightAnimations : MonoBehaviour
 {
     WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
     SpriteRenderer spriteRenderer;
+    WaitForSeconds flareTime = new WaitForSeconds(0.5f);
 
     private void Start()
     {
@@ -19,7 +21,7 @@ public class StormlightAnimations : MonoBehaviour
 
     IEnumerator StormlightFlareRoutine()
     {
-        float time = 0.2f;
+        float time = 0.25f;
         float timer = time;
         float amplitude;
         while ( timer > 0)
@@ -29,6 +31,8 @@ public class StormlightAnimations : MonoBehaviour
             spriteRenderer.material.SetFloat("_Amplitude", amplitude);
             yield return endOfFrame;
         }
+
+        yield return flareTime;
 
         timer = time;
         while (timer > 0)
@@ -40,12 +44,12 @@ public class StormlightAnimations : MonoBehaviour
         }
     }
 
-    public void StartStormlight()
+    public void StartStormlight(Action callbackFunction = null)
     {
-        StartCoroutine(StartStormlightRoutine());
+        StartCoroutine(StartStormlightRoutine(callbackFunction));
     }
 
-    IEnumerator StartStormlightRoutine()
+    IEnumerator StartStormlightRoutine(Action callbackFunction)
     {
         float time = 0.2f;
         float timer = time;
@@ -56,6 +60,11 @@ public class StormlightAnimations : MonoBehaviour
             amplitude = Mathf.Lerp(0.1f, 1, timer / time);
             spriteRenderer.material.SetFloat("_Amplitude", amplitude);
             yield return endOfFrame;
+        }
+
+        if(callbackFunction != null)
+        {
+            callbackFunction();
         }
     }
 

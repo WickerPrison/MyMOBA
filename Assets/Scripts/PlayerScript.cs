@@ -36,6 +36,7 @@ public class PlayerScript : MonoBehaviour
     HealthBar healthBar;
 
     // non editable public variables
+    [System.NonSerialized] public CharacterEvents characterEvents;
     [System.NonSerialized] public int health;
     [System.NonSerialized] public int ultimateCD;
     [System.NonSerialized] public int moveSpeedModifier = 0;
@@ -69,6 +70,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Awake()
     {
+        characterEvents = GetComponent<CharacterEvents>();
         tm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TurnManager>();
         im = tm.gameObject.GetComponent<InputManager>();
         uim = tm.gameObject.GetComponent<UIManager>();
@@ -228,6 +230,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         healthBar.UpdateHealthbar();
+        characterEvents.Heal();
     }
 
     public void ReduceUltimateCD()
@@ -417,6 +420,7 @@ public class PlayerScript : MonoBehaviour
             turnMeter = 0;
         }
         healthBar.UpdateTurnMeterBar();
+        characterEvents.LoseTurnMeter();
     }
 
     void SetupInputs()

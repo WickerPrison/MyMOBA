@@ -8,6 +8,9 @@ public class CharacterEvents : MonoBehaviour
     public event EventHandler OnTakeDamage;
     public event EventHandler OnGainArmor;
     public event EventHandler OnLoseArmor;
+    public event EventHandler OnLoseTurnMeter;
+    public event EventHandler OnBuff;
+    public event EventHandler OnHeal;
 
     public void TakeDamage()
     {
@@ -22,6 +25,21 @@ public class CharacterEvents : MonoBehaviour
     public void LoseArmor()
     {
         OnLoseArmor?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void LoseTurnMeter()
+    {
+        OnLoseTurnMeter?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void Buff()
+    {
+        OnBuff?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void Heal()
+    {
+        OnHeal?.Invoke(this, EventArgs.Empty);
     }
 
     //private void OnEnable()

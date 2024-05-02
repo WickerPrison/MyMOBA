@@ -18,12 +18,11 @@ public class LiftAnimationEvents : MonoBehaviour
 
     public void FoodHeist()
     {
-        abilitiesScript.FoodHeistFinal();
+        
     }
 
     public void EatPancakes()
     {
-        abilitiesScript.EatPancakesFinal();
     }
 
     public void Regrowth()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -122,5 +123,11 @@ public class CharacterAbilities : MonoBehaviour
         }
 
         return true;
+    }
+
+    public IEnumerator Delay(float time, Action callbackFunction)
+    {
+        yield return new WaitForSeconds(time);
+        callbackFunction();
     }
 }
