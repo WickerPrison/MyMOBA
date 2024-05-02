@@ -281,7 +281,7 @@ public class KaladinAbilities : CharacterAbilities
         {
             playerScript.abilityCooldowns[5] = playerScript.maxAbilityCooldowns[5];
             playerScript.ActivateAbility(0);
-            currentLivingShardplate.livingShardplate = false;
+            playerScript.livingShardplate = false;
             currentLivingShardplate.CalculateArmor();
             allyScript.livingShardplate = true;
             currentLivingShardplate = allyScript;

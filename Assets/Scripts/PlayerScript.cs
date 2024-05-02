@@ -50,8 +50,8 @@ public class PlayerScript : MonoBehaviour
     [System.NonSerialized] public int[] abilityCooldowns;
     [System.NonSerialized] public int respawnTimer;
     [System.NonSerialized] public bool dead = false;
-    [System.NonSerialized] public int rooted = 0;
     [System.NonSerialized] public bool livingShardplate = false;
+    [System.NonSerialized] public int rooted = 0;
     [System.NonSerialized] public int speedBost = 0;
     [System.NonSerialized] public int stun = 0;
     [System.NonSerialized] public int silenced = 0;

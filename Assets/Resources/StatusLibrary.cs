@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class StatusLibrary : ScriptableObject
 {
+
     public int livingSharplateArmor = 3; 
 }
