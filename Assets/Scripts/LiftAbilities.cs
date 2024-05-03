@@ -7,7 +7,6 @@ public class LiftAbilities : CharacterAbilities
     [SerializeField] PathfindingParameters slicknessParameters;
     [SerializeField] PathfindingParameters pickpocketParameters;
     [SerializeField] PathfindingParameters healingParameters;
-    [SerializeField] Animator animator;
     [SerializeField] Color lifelightColor;
     StormlightAnimations stormlightAnimations;
     PlayerMovement playerMovement;

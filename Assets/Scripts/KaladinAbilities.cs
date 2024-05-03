@@ -290,7 +290,6 @@ public class KaladinAbilities : CharacterAbilities
             currentLivingShardplate = allyScript;
             currentLivingShardplate.CalculateArmor();
             currentLivingShardplate.GetComponent<CharacterEvents>().GainArmor();
-            //animator.Play("Adhesion");
         }
     }
 

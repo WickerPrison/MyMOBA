@@ -3236,7 +3236,7 @@ MonoBehaviour:
   actionPointMax: 2
   respawnTime: 2
   movementCost: 1
-  maxUltimateCD: 0
+  maxUltimateCD: 4
   ultimateAPCost: 1
   myTeam: 1
   characterSprite: {fileID: 7364312790969346447}
@@ -3263,7 +3263,6 @@ MonoBehaviour:
   slicknessParameters: {fileID: 11400000, guid: 66b3872df08ddfd46ac9944daa23b7e3, type: 2}
   pickpocketParameters: {fileID: 11400000, guid: a4511f1732fb89e4d8adfe9ce54e7494, type: 2}
   healingParameters: {fileID: 11400000, guid: 74b52efc9edf8c44dbe1c3547685ad5a, type: 2}
-  animator: {fileID: 8062386239252905101}
   lifelightColor: {r: 0, g: 0.854902, b: 0.5176471, a: 1}
   maxLifelight: 7
   sliding: 0
