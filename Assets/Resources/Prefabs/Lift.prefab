@@ -3236,7 +3236,7 @@ MonoBehaviour:
   actionPointMax: 2
   respawnTime: 2
   movementCost: 1
-  maxUltimateCD: 4
+  maxUltimateCD: 0
   ultimateAPCost: 1
   myTeam: 1
   characterSprite: {fileID: 7364312790969346447}
@@ -3532,13 +3532,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: StormlightEffects
       objectReference: {fileID: 0}
+    - target: {fileID: 4837289825834309160, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837289825834309160, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837289825834309160, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837289825834309160, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.85490197
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837289825834309160, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5595322003954624122, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
       propertyPath: m_Color.b
-      value: 0.5421593
+      value: 0.5176471
       objectReference: {fileID: 0}
     - target: {fileID: 5595322003954624122, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.85490197
       objectReference: {fileID: 0}
     - target: {fileID: 6660172055932517562, guid: eb47a8c49733e924fb0f473d919323e7, type: 3}
       propertyPath: m_RootOrder

@@ -8,10 +8,15 @@ public class StormlightAnimations : MonoBehaviour
     WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
     SpriteRenderer spriteRenderer;
     WaitForSeconds flareTime = new WaitForSeconds(0.5f);
+    ParticleSystem pulse;
+    ParticleSystemRenderer pulseRender;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        pulse = GetComponent<ParticleSystem>();
+        pulseRender = GetComponent<ParticleSystemRenderer>();
+        pulseRender.material.SetFloat("_Amplitude", 0.1f);
     }
 
     public void StormlightFlare()
@@ -46,6 +51,12 @@ public class StormlightAnimations : MonoBehaviour
 
     public void StartStormlight(Action callbackFunction = null)
     {
+        if (spriteRenderer.material.GetFloat("_Amplitude") <= 0.2)
+        {
+            callbackFunction();
+            return;
+        }
+
         StartCoroutine(StartStormlightRoutine(callbackFunction));
     }
 
@@ -85,5 +96,10 @@ public class StormlightAnimations : MonoBehaviour
             spriteRenderer.material.SetFloat("_Amplitude", amplitude);
             yield return endOfFrame;
         }
+    }
+
+    public void StormlightPulse()
+    { 
+        pulse.Play();
     }
 }

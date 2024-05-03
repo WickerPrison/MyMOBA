@@ -267,10 +267,13 @@ public class LiftAbilities : CharacterAbilities
             sliding = false;
             TileScript currentTile = pathfinding.GetCurrentTile();
             playerMovement.OccupyTile(currentTile);
-            stormlightAnimations.EndStormlight();
             if (playerScript.ultimateActive)
             {
                 AwesomenessArrival(currentTile);
+            }
+            else
+            {
+                stormlightAnimations.EndStormlight();
             }
         }
     }
@@ -301,8 +304,7 @@ public class LiftAbilities : CharacterAbilities
     {
         if (!clickedTile.occupied)
         {
-            animator.Play("Slickness");
-            playerScript.FaceCharacter(clickedTile.transform);
+            stormlightAnimations.StartStormlight(() => sliding = true);
             slicknessDestination = clickedTile;
             slicknessDirection = slicknessDestination.transform.position - transform.position;
             playerMovement.movePoint.position = transform.position;
@@ -316,6 +318,7 @@ public class LiftAbilities : CharacterAbilities
     void AwesomenessArrival(TileScript currentTile)
     {
         awesomenessNumber--;
+        stormlightAnimations.StormlightPulse();
         foreach(TileScript tile in currentTile.adjacencyList)
         {
             if (tile.occupation.CompareTag(gameObject.tag))
@@ -332,6 +335,7 @@ public class LiftAbilities : CharacterAbilities
             playerScript.actionPoints -= playerScript.ultimateAPCost;
             playerScript.ultimateCD = playerScript.maxUltimateCD;
             currentTarget = null;
+            stormlightAnimations.EndStormlight();
         }
     }
 
