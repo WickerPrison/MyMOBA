@@ -1406,7 +1406,7 @@ MonoBehaviour:
   statusLibrary: {fileID: 11400000, guid: f94a239e3435de24295bb3c3ec25c97a, type: 2}
   abilityIcons:
   - {fileID: 21300000, guid: 72805f393c8d93b4c84ec78e0a7d06b7, type: 3}
-  - {fileID: 21300000, guid: 858a93e591b12d64999b5cc05664e0f6, type: 3}
+  - {fileID: 21300000, guid: 72805f393c8d93b4c84ec78e0a7d06b7, type: 3}
   - {fileID: 21300000, guid: 36092b478be0f80498e869df3f13e0b1, type: 3}
   - {fileID: 21300000, guid: 2b04d69885ff5b340a90d2dbd0274c44, type: 3}
   - {fileID: 21300000, guid: f4e53ff68b59d7344aa4a500fe53ef04, type: 3}
@@ -1440,6 +1440,8 @@ MonoBehaviour:
   attackParameters: {fileID: 11400000, guid: a4511f1732fb89e4d8adfe9ce54e7494, type: 2}
   buffParameters: {fileID: 11400000, guid: 74b52efc9edf8c44dbe1c3547685ad5a, type: 2}
   dayOfBlackSunSprite: {fileID: 1214291027646012943}
+  boomerangPrefab: {fileID: 1486144569116449467, guid: b077948d355b5694bb29f959af599d13, type: 3}
+  stinkBombPrefab: {fileID: 5369027052537680134, guid: 1ac428c6daf64b341b1814d4e4c1c1d4, type: 3}
   boomerangDamage: 5
   swordDamage: 5
   currentTarget: {fileID: 0}

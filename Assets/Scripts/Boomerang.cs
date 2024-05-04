@@ -12,7 +12,6 @@ public class Boomerang : MonoBehaviour
     SpriteRenderer sprite;
     bool hitTarget = false;
     Vector2 direction;
-    Vector3 offset = new Vector3(0, 0.75f, 0);
 
     private void Start()
     {
@@ -24,19 +23,18 @@ public class Boomerang : MonoBehaviour
     {
         if (!hitTarget)
         {
-            if(Vector2.Distance(target.position + offset,transform.position) < 0.1f)
+            if(Vector2.Distance(target.position,transform.position) < 0.1f)
             {
                 abilities.BoomerangHit();
                 hitTarget = true;
             }
-            direction = target.position - transform.position + offset;   
+            direction = target.position - transform.position;   
         }
         else
         {
             direction = returnPosition.position - transform.position;
             if(Vector2.Distance(returnPosition.position, transform.position) < 0.1f)
             {
-                abilities.CatchBoomerang();
                 Destroy(gameObject);
             }
         }

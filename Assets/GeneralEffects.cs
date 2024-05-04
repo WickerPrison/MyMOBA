@@ -10,6 +10,7 @@ public class GeneralEffects : MonoBehaviour
     [SerializeField] SpriteRenderer turnMeterSprite;
     [SerializeField] SpriteRenderer buffSprite;
     [SerializeField] SpriteRenderer healSprite;
+    [SerializeField] SpriteRenderer silencedSprite;
     CharacterEvents characterEvents;
     WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
 
@@ -36,6 +37,12 @@ public class GeneralEffects : MonoBehaviour
         StartCoroutine(BuffAnimation(turnMeterSprite));
     }
 
+    private void OnGainTurnMeter(object sender, System.EventArgs e)
+    {
+        turnMeterSprite.color = buff;
+        StartCoroutine(BuffAnimation(turnMeterSprite));
+    }
+
     private void OnBuff(object sender, System.EventArgs e)
     {
         StartCoroutine(BuffAnimation(buffSprite));
@@ -44,6 +51,11 @@ public class GeneralEffects : MonoBehaviour
     private void OnHeal(object sender, System.EventArgs e)
     {
         StartCoroutine(BuffAnimation(healSprite));
+    }
+
+    private void OnSilenced(object sender, System.EventArgs e)
+    {
+        StartCoroutine(BuffAnimation(silencedSprite));
     }
 
     public IEnumerator BuffAnimation(SpriteRenderer sprite)
@@ -78,8 +90,10 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnGainArmor += OnGainArmor;
         characterEvents.OnLoseArmor += OnLoseArmor;
         characterEvents.OnLoseTurnMeter += OnLoseTurnMeter;
+        characterEvents.OnGainTurnMeter += OnGainTurnMeter;
         characterEvents.OnBuff += OnBuff;
         characterEvents.OnHeal += OnHeal;
+        characterEvents.OnSilenced += OnSilenced;
     }
 
 
@@ -88,7 +102,9 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnGainArmor -= OnGainArmor;
         characterEvents.OnLoseArmor -= OnLoseArmor;
         characterEvents.OnLoseTurnMeter -= OnLoseTurnMeter;
+        characterEvents.OnGainTurnMeter -= OnGainTurnMeter;
         characterEvents.OnBuff -= OnBuff;
         characterEvents.OnHeal -= OnHeal;
+        characterEvents.OnSilenced -= OnSilenced;
     }
 }

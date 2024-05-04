@@ -15,7 +15,7 @@ public class PlayerScript : MonoBehaviour
     public int movementCost = 1;
     public int maxUltimateCD;
     public int ultimateAPCost;
-    
+
     // editable things
     public int myTeam;
     [SerializeField] Transform characterSprite;
@@ -52,10 +52,15 @@ public class PlayerScript : MonoBehaviour
     [System.NonSerialized] public int respawnTimer;
     [System.NonSerialized] public bool dead = false;
     [System.NonSerialized] public bool livingShardplate = false;
+    private int silenced = 0;
+    public int Silenced
+    {
+        get { return silenced; }
+        set { silenced = value; characterEvents.Silenced(); }
+    }
     [System.NonSerialized] public int rooted = 0;
     [System.NonSerialized] public int speedBost = 0;
     [System.NonSerialized] public int stun = 0;
-    [System.NonSerialized] public int silenced = 0;
     [System.NonSerialized] public bool dayOfBlackSun = false;
     [System.NonSerialized] public int sleep = 0;
     [System.NonSerialized] public bool ultimateActive = false;
@@ -410,6 +415,7 @@ public class PlayerScript : MonoBehaviour
     {
         turnMeter += amount;
         healthBar.UpdateTurnMeterBar();
+        characterEvents.GainTurnMeter();
     }
 
     public void DecreaseTurnMeter(int amount)

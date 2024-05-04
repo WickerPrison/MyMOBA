@@ -1,19 +1,31 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class StinkBomb : MonoBehaviour
 {
     public TileScript target;
     public string myTeam;
-    float speed = 8;
+    float speed = 4;
     List<TileScript> affectedTiles = new List<TileScript>();
+    SpriteRenderer sprite;
+    ParticleSystem particles;
+    bool exploding = false;
+
+    private void Start()
+    {
+        particles = GetComponent<ParticleSystem>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+    }
 
     private void Update()
     {
-        transform.LookAt(target.transform.position);
+        if (exploding) return;
         Vector3 direction = target.transform.position - transform.position;
-        transform.Translate(direction.normalized * Time.deltaTime * speed);
+        transform.right = direction.normalized;
+        transform.position += direction.normalized * Time.deltaTime * speed;
 
         if(Vector3.Distance(transform.position, target.transform.position) < 0.1)
         {
@@ -26,14 +38,22 @@ public class StinkBomb : MonoBehaviour
             foreach(TileScript tile in affectedTiles)
             {
                 PlayerScript enemy = tile.occupation.GetComponent<PlayerScript>();
-                if(enemy != null && !enemy.CompareTag(myTeam) && enemy.silenced <= 2)
+                if(enemy != null && !enemy.CompareTag(myTeam) && enemy.Silenced <= 2)
                 {
-                    enemy.silenced = 2;
+                    enemy.Silenced = 2;
                 }
 
             }
-
-            Destroy(gameObject);
+            sprite.enabled = false;
+            exploding = true;
+            StartCoroutine(Explode());
         }
+    }
+
+    IEnumerator Explode()
+    {
+        particles.Play();
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 }
