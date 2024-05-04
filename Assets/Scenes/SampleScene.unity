@@ -44646,6 +44646,10 @@ PrefabInstance:
       propertyPath: myTeam
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6009877136193075951, guid: 48be75d32d29a034f8e531696f2966c7, type: 3}
+      propertyPath: maxUltimateCD
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6687610208918792064, guid: 48be75d32d29a034f8e531696f2966c7, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: -0.050105184
@@ -44805,11 +44809,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6553846544043007842, guid: 4120c221d352fc644bcd2365aa50c7fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.58
+      value: -5.5
       objectReference: {fileID: 0}
     - target: {fileID: 6553846544043007842, guid: 4120c221d352fc644bcd2365aa50c7fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.28
+      value: 2.372
       objectReference: {fileID: 0}
     - target: {fileID: 6553846544043007842, guid: 4120c221d352fc644bcd2365aa50c7fc, type: 3}
       propertyPath: m_LocalPosition.z

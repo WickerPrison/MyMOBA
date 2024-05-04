@@ -156,7 +156,7 @@ public class AmosAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("Shoot");
+            tokenAnimations.Recoil(currentTarget.transform.position, AutoShotgunFinish);
         }
     }
 
