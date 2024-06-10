@@ -11,6 +11,7 @@ public class GeneralEffects : MonoBehaviour
     [SerializeField] SpriteRenderer buffSprite;
     [SerializeField] SpriteRenderer healSprite;
     [SerializeField] SpriteRenderer silencedSprite;
+    [SerializeField] SpriteRenderer[] customEffects;
     CharacterEvents characterEvents;
     WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
 
@@ -58,6 +59,11 @@ public class GeneralEffects : MonoBehaviour
         StartCoroutine(BuffAnimation(silencedSprite));
     }
 
+    private void OnCustomEffect(CharacterEvents sender, int effectIndex)
+    {
+        StartCoroutine(BuffAnimation(customEffects[effectIndex]));
+    }
+
     public IEnumerator BuffAnimation(SpriteRenderer sprite)
     {
         float fadeIn = 0.2f;
@@ -94,6 +100,7 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnBuff += OnBuff;
         characterEvents.OnHeal += OnHeal;
         characterEvents.OnSilenced += OnSilenced;
+        characterEvents.OnCustomEffect += OnCustomEffect;
     }
 
 
@@ -106,5 +113,6 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnBuff -= OnBuff;
         characterEvents.OnHeal -= OnHeal;
         characterEvents.OnSilenced -= OnSilenced;
+        characterEvents.OnCustomEffect -= OnCustomEffect;
     }
 }

@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1135808689
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 11b9f71fccc7c4e40bd32f2efcc45327, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -154,8 +154,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1135808689
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7bfdd250db7ce864480f0f70c9efa2f3, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 0}
@@ -224,6 +224,7 @@ MonoBehaviour:
   buffSprite: {fileID: 214863740873739452}
   healSprite: {fileID: 2761184812619137109}
   silencedSprite: {fileID: 1563898504169815855}
+  customEffects: []
 --- !u!1 &3070901628713488946
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,8 +295,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1135808689
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b0c3f1043a1712f48b0bdd850ba97841, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -477,8 +478,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1135808689
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cde16e328c3a1d64eb99b9353baf2d9b, type: 3}
   m_Color: {r: 0, g: 0.10980392, b: 1, a: 0}
@@ -645,8 +646,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1135808689
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c7adc776991575e4b84f78786d404ad8, type: 3}
   m_Color: {r: 0, g: 0.10980392, b: 1, a: 0}

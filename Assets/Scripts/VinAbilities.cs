@@ -199,7 +199,7 @@ public class VinAbilities : CharacterAbilities
                 GlassDaggersInitiate(clickedTile);
                 break;
             case 3:
-                animator.Play("MetalVial");
+                MetalVial();
                 break;
             case 4:
                 Pewter();
@@ -211,7 +211,7 @@ public class VinAbilities : CharacterAbilities
                 duralumin = true;
                 playerScript.abilityCooldowns[6] = playerScript.maxAbilityCooldowns[6];
                 playerScript.ActivateAbility(0);
-                animator.Play("Duralumin");
+                playerScript.characterEvents.CustomEffect(1);
                 break;
         }
     }
@@ -223,7 +223,7 @@ public class VinAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("GlassDaggers");
+            tokenAnimations.MeleeAttack(currentTarget.transform.position, GlassDaggersFinish);
         }
     }
 
@@ -237,6 +237,7 @@ public class VinAbilities : CharacterAbilities
 
     public void MetalVial()
     {
+        playerScript.characterEvents.Buff();
         metals = maxMetals;
         uim.UpdateMana(metals, metalColor);
         playerScript.actionPoints -= playerScript.actionPointCosts[3];
@@ -246,7 +247,7 @@ public class VinAbilities : CharacterAbilities
 
     void Pewter()
     {
-        animator.Play("Pewter");
+        playerScript.characterEvents.CustomEffect(0);
         int amount;
         if (duralumin)
         {
@@ -332,6 +333,7 @@ public class VinAbilities : CharacterAbilities
 
     public void OneWithTheMists()
     {
+        playerScript.characterEvents.CustomEffect(2);
         playerScript.ultimateActive = false;
         playerScript.ultimateCD = playerScript.maxUltimateCD;
         oneWithMists = oneWithMistsMax;

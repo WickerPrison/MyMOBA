@@ -14,6 +14,8 @@ public class CharacterEvents : MonoBehaviour
     public event EventHandler OnHeal;
     public event EventHandler OnSilenced;
 
+    public event Action<CharacterEvents, int> OnCustomEffect;
+
     public void TakeDamage()
     {
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
@@ -52,6 +54,11 @@ public class CharacterEvents : MonoBehaviour
     public void Silenced()
     {
         OnSilenced?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void CustomEffect(int effectIndex)
+    {
+        OnCustomEffect?.Invoke(this, effectIndex);
     }
 
     //private void OnEnable()
