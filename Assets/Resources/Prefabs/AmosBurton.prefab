@@ -1202,7 +1202,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c450faf89bbe8e7499d3454a54a79e20, type: 3}
   - {fileID: 21300000, guid: 80af6a27f11db964db0c952855ea2e3c, type: 3}
   ultimateIcon: {fileID: 21300000, guid: 03309a3f406c7b34984bf96892b51a64, type: 3}
-  portrait: {fileID: 21300000, guid: b40c3fe6958bfa24da11998b3cdf8fd5, type: 3}
+  portrait: {fileID: 21300000, guid: b8322b67470e5e348a4a460233cbc50f, type: 3}
 --- !u!114 &292494947734920928
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class TokenAnimations : MonoBehaviour
@@ -55,17 +57,25 @@ public class TokenAnimations : MonoBehaviour
         transform.localPosition = Vector2.zero;
     }
 
-    public void Recoil(Vector2 targetPos, Action finalFunction)
+
+    public void Recoil(Vector2 targetPos, Action finalFunction = null, Action[] repeatActions = null)
     {
+        if(finalFunction == null)
+        {
+            finalFunction = () => { };
+        }
+
+        StartCoroutine(RecoilRoutine(targetPos, finalFunction, repeatActions));   
+    }
+
+    IEnumerator RecoilRoutine(Vector2 targetPos, Action finalFunction, Action[] repeatActions = null)
+    {
+
         if (muzzleFlash != null)
         {
             muzzleFlash.Flash(targetPos);
         }
-        StartCoroutine(RecoilRoutine(targetPos, finalFunction));   
-    }
 
-    IEnumerator RecoilRoutine(Vector2 targetPos, Action finalFunction)
-    {
         Vector2 initialPos = transform.position;
         Vector2 attackDirection = (targetPos - initialPos).normalized;
         float time = 0.05f;
@@ -89,5 +99,12 @@ public class TokenAnimations : MonoBehaviour
             yield return endOfFrame;
         }
         transform.localPosition = Vector2.zero;
+
+        if(repeatActions != null && repeatActions.Length > 0)
+        {
+            Action action = repeatActions[0];
+            repeatActions = repeatActions.Skip(1).ToArray();
+            StartCoroutine(RecoilRoutine(targetPos, action, repeatActions));
+        }
     }
 }

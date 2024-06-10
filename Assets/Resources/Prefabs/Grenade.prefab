@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1235861537, guid: efc64bce3370d5b4dbebb3185972eb93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -162,5 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movePoint: {fileID: 1403473211347386933}
+  explosion: {fileID: 8387631973898376630, guid: edabb7e8add64ba46b2d3888f7b38084, type: 3}
   targetTile: {fileID: 0}
   startingPosition: {x: 0, y: 0, z: 0}
+  grenadeDamage: 10

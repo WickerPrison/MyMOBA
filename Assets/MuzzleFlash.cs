@@ -11,7 +11,6 @@ public class MuzzleFlash : MonoBehaviour
     public void Flash(Vector2 targetPos)
     {
         Vector2 direction = targetPos - (Vector2)transform.position;
-        Debug.Log(transform.position);
         transform.up = direction.normalized;
         StartCoroutine(FlashRoutine());
     }

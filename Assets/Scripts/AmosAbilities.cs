@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class AmosAbilities : CharacterAbilities
 {
@@ -175,20 +174,19 @@ public class AmosAbilities : CharacterAbilities
         playerScript.actionPoints -= playerScript.actionPointCosts[3];
         playerScript.abilityCooldowns[3] = playerScript.maxAbilityCooldowns[3];
         grenadeDestination = clickedTile;
-        animator.Play("ThrowGrenade");
-    }
-
-    public void ThrowGrenadeFinal()
-    {
         grenade = Instantiate(grenadePrefab).GetComponent<Grenade>();
         grenade.targetTile = grenadeDestination;
-        grenade.startingPosition = backHand.position;
+        grenade.startingPosition = transform.position;
     }
 
     void SuppressingFireInitiate(TileScript clickedTile)
     {
-        playerScript.FaceCharacter(clickedTile.transform);
-        animator.Play("SuppressingFire");
+        Action[] suppressingActions = {
+            () => { },
+            () => { },
+            () => { }
+        };
+        tokenAnimations.Recoil(clickedTile.transform.position, SuppressingFireFinal, suppressingActions);
     }
 
     public void SuppressingFireFinal()
@@ -216,7 +214,7 @@ public class AmosAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("RapidFire");
+            tokenAnimations.Recoil(currentTarget.transform.position, RapidFireFinish, new Action[] {AutoShotgunFinish});
         }
     }
 
@@ -232,7 +230,7 @@ public class AmosAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("IAmThatGuy");
+            tokenAnimations.Recoil(currentTarget.transform.position, IAmThatGuyFinal);
         }
     }
 
