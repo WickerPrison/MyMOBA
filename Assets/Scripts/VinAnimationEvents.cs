@@ -20,12 +20,12 @@ public class VinAnimationEvents : MonoBehaviour
 
     public void SteelpushTrue()
     {
-        abilitiesScript.steelpush = true;
+        //abilitiesScript.steelpush = true;
     }
 
     public void SteelpushFalse()
     {
-        abilitiesScript.steelpush = false;
-        abilitiesScript.SteelLanding();
+        //abilitiesScript.steelpush = false;
+        //abilitiesScript.SteelLanding();
     }
 }

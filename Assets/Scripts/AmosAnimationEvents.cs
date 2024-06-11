@@ -18,7 +18,6 @@ public class AmosAnimationEvents : MonoBehaviour
 
     public void ThrowGrenade()
     {
-        abilitiesScript.ThrowGrenadeFinal();
     }
 
     public void SuppressingFire()

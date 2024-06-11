@@ -9,12 +9,14 @@ public class BheemAbilities : CharacterAbilities
     [SerializeField] Animator animator;
     PlayerScript currentTarget;
     [SerializeField] int spearDamage = 4;
+    [SerializeField] GameObject sleepPotPrefab;
 
     PlayerScript holyThreaded;
     int holyThreadHealing = 3;
 
     int sleepPotDuration = 2;
-    [System.NonSerialized] public TileScript sleepPotTarget;
+
+    int inspiringSongTurnMeter = 500;
 
 
     public override void Start()
@@ -41,7 +43,7 @@ public class BheemAbilities : CharacterAbilities
 
     private void Update()
     {
-        if (playerScript.activeAbility <= 1)
+        if (playerScript.activeAbility <= 1 && !playerScript.ultimateActive)
         {
             return;
         }
@@ -50,6 +52,17 @@ public class BheemAbilities : CharacterAbilities
         TileScript currentTile = pathfinding.GetCurrentTile();
         currentTile.UpdateSelectionColor(1, true);
         TileScript mouseTile = mouseOverTiles.GetClickedTile();
+
+        if (playerScript.ultimateActive)
+        {
+            pathfinding.Pathfinder(currentTile, buffParameters, 3, true);
+            if(mouseTile != null && mouseTile.selectable)
+            {
+                pathfinding.ResetTiles();
+                pathfinding.Pathfinder(currentTile, buffParameters, 3, false);
+                currentTile.UpdateSelectionColor(buffParameters.selectionColor, false);
+            }
+        }
 
         switch (playerScript.activeAbility)
         {
@@ -101,6 +114,11 @@ public class BheemAbilities : CharacterAbilities
             return;
         }
 
+        if(playerScript.ultimateActive && playerScript.actionPoints >= playerScript.ultimateAPCost)
+        {
+            InspiringSong();
+        }
+
         switch (playerScript.activeAbility)
         {
             case 2:
@@ -123,11 +141,10 @@ public class BheemAbilities : CharacterAbilities
         PlayerScript enemyScript = clickedTile.occupation.GetComponent<PlayerScript>();
         if (enemyScript != null && !enemyScript.gameObject.CompareTag(gameObject.tag))
         {
-            playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
             playerScript.ActivateAbility(0);
             playerScript.actionPoints -= playerScript.actionPointCosts[2];
-            animator.Play("Spear");
+            tokenAnimations.MeleeAttack(enemyScript.transform.position, SpearFinish);
         }
     }
 
@@ -143,11 +160,11 @@ public class BheemAbilities : CharacterAbilities
         PlayerScript holyThreadTarget = clickedTile.occupation.GetComponent<PlayerScript>();
         if(holyThreadTarget != null && holyThreadTarget.gameObject.CompareTag(gameObject.tag) && holyThreadTarget != holyThreaded)
         {
+            holyThreaded.characterEvents.Debuff();
             holyThreaded = holyThreadTarget;
-            playerScript.FaceCharacter(clickedTile.transform);
+            holyThreaded.characterEvents.Buff();
             playerScript.ActivateAbility(0);
             playerScript.actionPoints -= playerScript.actionPointCosts[3];
-            animator.Play("HolyThread");
         }
     }
 
@@ -156,19 +173,11 @@ public class BheemAbilities : CharacterAbilities
         PlayerScript ally = clickedTile.occupation.GetComponent<PlayerScript>();
         if(ally != null && ally.CompareTag(gameObject.tag) && ally.health < ally.maxHealth)
         {
-            playerScript.FaceCharacter(clickedTile.transform);
             playerScript.ActivateAbility(0);
             playerScript.actionPoints -= playerScript.actionPointCosts[4];
             playerScript.abilityCooldowns[4] = playerScript.maxAbilityCooldowns[4];
-            currentTarget = ally;
-            animator.Play("Leaves");
+            ally.GetHealed(ally.maxHealth);
         }
-    }
-
-    public void LeavesFinal()
-    {
-        currentTarget.GetHealed(currentTarget.maxHealth);
-        currentTarget = null;
     }
 
     void SleepPotInitiate(TileScript clickedTile)
@@ -176,13 +185,16 @@ public class BheemAbilities : CharacterAbilities
         PlayerScript enemyScript = clickedTile.occupation.GetComponent<PlayerScript>();
         if (enemyScript != null && !enemyScript.gameObject.CompareTag(gameObject.tag))
         {
-            sleepPotTarget = clickedTile;
-            playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
             playerScript.ActivateAbility(0);
             playerScript.actionPoints -= playerScript.actionPointCosts[5];
             playerScript.abilityCooldowns[5] = playerScript.maxAbilityCooldowns[5];
-            animator.Play("SleepPot");
+
+            Projectile sleepPot = Instantiate(sleepPotPrefab).GetComponent<Projectile>();
+            sleepPot.transform.position = transform.position;
+            sleepPot.target = clickedTile;
+            sleepPot.myTeam = gameObject.tag;
+            sleepPot.abilities = this;
         }
     }
 
@@ -191,9 +203,29 @@ public class BheemAbilities : CharacterAbilities
         base.ProjectileHit(target);
 
         PlayerScript enemyScript = target.occupation.GetComponent<PlayerScript>();
+        enemyScript.characterEvents.Sleep();
         if(enemyScript.sleep < sleepPotDuration)
         {
             enemyScript.sleep = sleepPotDuration;
+        }
+    }
+
+    void InspiringSong()
+    {
+        playerScript.ultimateActive = false;
+        playerScript.ActivateAbility(0);
+        playerScript.actionPoints -= playerScript.ultimateAPCost;
+        playerScript.ultimateCD = playerScript.maxUltimateCD;
+        foreach(PlayerScript player in tm.players)
+        {
+            Pathfinding playerPathfinding = player.GetComponent<Pathfinding>();
+            TileScript playerTile = playerPathfinding.GetCurrentTile(); 
+            if(player.CompareTag(gameObject.tag) && playerTile.selectable)
+            {
+                player.IncreaseTurnMeter(inspiringSongTurnMeter);
+                player.frenzy += 2;
+                player.characterEvents.Frenzy(true);
+            }
         }
     }
 

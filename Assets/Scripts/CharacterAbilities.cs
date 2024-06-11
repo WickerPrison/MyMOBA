@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class CharacterAbilities : MonoBehaviour
     [System.NonSerialized] public TurnManager tm;
     [System.NonSerialized] public Pathfinding pathfinding;
     [System.NonSerialized] public MouseOverTiles mouseOverTiles;
+    [System.NonSerialized] public TokenAnimations tokenAnimations;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -19,6 +21,7 @@ public class CharacterAbilities : MonoBehaviour
         mouseOverTiles = im.gameObject.GetComponent<MouseOverTiles>();
         playerScript = GetComponent<PlayerScript>();
         pathfinding = GetComponent<Pathfinding>();
+        tokenAnimations = GetComponentInChildren<TokenAnimations>();
         SetupControls();
     }
 
@@ -120,5 +123,11 @@ public class CharacterAbilities : MonoBehaviour
         }
 
         return true;
+    }
+
+    public IEnumerator Delay(float time, Action callbackFunction)
+    {
+        yield return new WaitForSeconds(time);
+        callbackFunction();
     }
 }

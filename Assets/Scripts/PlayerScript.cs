@@ -15,7 +15,7 @@ public class PlayerScript : MonoBehaviour
     public int movementCost = 1;
     public int maxUltimateCD;
     public int ultimateAPCost;
-    
+
     // editable things
     public int myTeam;
     [SerializeField] Transform characterSprite;
@@ -36,6 +36,7 @@ public class PlayerScript : MonoBehaviour
     HealthBar healthBar;
 
     // non editable public variables
+    [System.NonSerialized] public CharacterEvents characterEvents;
     [System.NonSerialized] public int health;
     [System.NonSerialized] public int ultimateCD;
     [System.NonSerialized] public int moveSpeedModifier = 0;
@@ -50,13 +51,19 @@ public class PlayerScript : MonoBehaviour
     [System.NonSerialized] public int[] abilityCooldowns;
     [System.NonSerialized] public int respawnTimer;
     [System.NonSerialized] public bool dead = false;
-    [System.NonSerialized] public int rooted = 0;
     [System.NonSerialized] public bool livingShardplate = false;
+    private int silenced = 0;
+    public int Silenced
+    {
+        get { return silenced; }
+        set { silenced = value; characterEvents.Silenced(); }
+    }
+    [System.NonSerialized] public int rooted = 0;
     [System.NonSerialized] public int speedBost = 0;
     [System.NonSerialized] public int stun = 0;
-    [System.NonSerialized] public int silenced = 0;
     [System.NonSerialized] public bool dayOfBlackSun = false;
     [System.NonSerialized] public int sleep = 0;
+    [System.NonSerialized] public int frenzy = 0;
     [System.NonSerialized] public bool ultimateActive = false;
     [System.NonSerialized] public List<int> greyedOutAbilities = new List<int>();
     [System.NonSerialized] public List<int> silenceableAbilities = new List<int>();
@@ -69,6 +76,7 @@ public class PlayerScript : MonoBehaviour
 
     private void Awake()
     {
+        characterEvents = GetComponent<CharacterEvents>();
         tm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TurnManager>();
         im = tm.gameObject.GetComponent<InputManager>();
         uim = tm.gameObject.GetComponent<UIManager>();
@@ -167,7 +175,6 @@ public class PlayerScript : MonoBehaviour
 
     public void StartTurn()
     {
-        uim.SetupUIforTurn(this);
         ActivateAbility(0);
         if(respawnTimer > 0)
         {
@@ -185,14 +192,15 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        StatusEffects();
-
-        characterAbilities.StartTurn();
-
         if (!dead)
         {
             actionPoints = actionPointMax;
         }
+
+        StatusEffects();
+
+        characterAbilities.StartTurn();
+        uim.SetupUIforTurn(this);
     }
 
     public void EndTurn()
@@ -228,6 +236,7 @@ public class PlayerScript : MonoBehaviour
         }
 
         healthBar.UpdateHealthbar();
+        characterEvents.Heal();
     }
 
     public void ReduceUltimateCD()
@@ -355,6 +364,12 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        if(frenzy > 0)
+        {
+            actionPoints += 1;
+            frenzy--;
+        }
+
         CalculateMoveSpeed();
         CalculateArmor();
     }
@@ -390,6 +405,11 @@ public class PlayerScript : MonoBehaviour
             return;
         }
 
+        if(frenzy <= 0)
+        {
+            characterEvents.Frenzy(false);
+        }
+
         turnMeter = 0;
         healthBar.UpdateTurnMeterBar();
         ActivateAbility(0);
@@ -407,6 +427,7 @@ public class PlayerScript : MonoBehaviour
     {
         turnMeter += amount;
         healthBar.UpdateTurnMeterBar();
+        characterEvents.GainTurnMeter();
     }
 
     public void DecreaseTurnMeter(int amount)
@@ -417,6 +438,7 @@ public class PlayerScript : MonoBehaviour
             turnMeter = 0;
         }
         healthBar.UpdateTurnMeterBar();
+        characterEvents.LoseTurnMeter();
     }
 
     void SetupInputs()

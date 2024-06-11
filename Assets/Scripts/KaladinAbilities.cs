@@ -10,8 +10,10 @@ public class KaladinAbilities : CharacterAbilities
     [SerializeField] PathfindingParameters attackParameters;
     [SerializeField] PathfindingParameters lashingParameters;
     [SerializeField] PathfindingParameters gravitationMovementParameters;
-    [SerializeField] Animator animator;
     [SerializeField] Color stormlightColor;
+    [SerializeField] SpriteRenderer glyphSprite;
+    GeneralEffects generalEffects;
+    StormlightAnimations stormlightAnimations;
     PlayerScript currentLivingShardplate;
     PlayerScript currentTarget;
     TileScript lashingTile;
@@ -33,6 +35,9 @@ public class KaladinAbilities : CharacterAbilities
     public override void Start()
     {
         base.Start();
+        stormlightAnimations = GetComponentInChildren<StormlightAnimations>();
+        generalEffects = GetComponentInChildren<GeneralEffects>();
+
         // spear attack cost and cooldown
         playerScript.actionPointCosts.Add(1);
         playerScript.maxAbilityCooldowns.Add(0);
@@ -179,7 +184,7 @@ public class KaladinAbilities : CharacterAbilities
 
         if (playerScript.ultimateActive)
         {
-            SayTheWordsInitiate(clickedTile);
+            SayTheWords(clickedTile);
         }
 
         switch (playerScript.activeAbility)
@@ -204,9 +209,8 @@ public class KaladinAbilities : CharacterAbilities
         PlayerScript enemyScript = clickedTile.occupation.GetComponent<PlayerScript>();
         if(enemyScript != null && !enemyScript.gameObject.CompareTag(gameObject.tag))
         {
-            playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("SylSpear");
+            tokenAnimations.MeleeAttack(enemyScript.transform.position, SylSpearFinish);
         }
     }
 
@@ -215,6 +219,7 @@ public class KaladinAbilities : CharacterAbilities
         currentTarget.TakeDamage(sylSpearDamage);
         if (adhesionActive && currentTarget.rooted <= adhesionDuration)
         {
+            stormlightAnimations.EndStormlight();
             currentTarget.rooted = adhesionDuration;
             adhesionActive = false;
         }
@@ -234,9 +239,8 @@ public class KaladinAbilities : CharacterAbilities
         }
         else if(gravitationTargetSelected && clickedTile != null && clickedTile.selectable && !clickedTile.occupied)
         {
-            playerScript.FaceCharacter(currentTarget.transform);
             lashingTile = clickedTile;
-            animator.Play("Gravitation");
+            GravitationFinish();
         }
     }
 
@@ -252,6 +256,7 @@ public class KaladinAbilities : CharacterAbilities
         targetMovement.FollowPath();
         if(adhesionActive && currentTarget.rooted <= adhesionDuration)
         {
+            stormlightAnimations.EndStormlight();
             currentTarget.rooted = adhesionDuration;
             adhesionActive = false;
         }
@@ -267,7 +272,7 @@ public class KaladinAbilities : CharacterAbilities
             stormlight -= 2;
             uim.UpdateMana(stormlight, stormlightColor);
             adhesionActive = true;
-            animator.Play("Adhesion");
+            stormlightAnimations.StartStormlight();
         }
     }
 
@@ -280,30 +285,26 @@ public class KaladinAbilities : CharacterAbilities
             playerScript.ActivateAbility(0);
             currentLivingShardplate.livingShardplate = false;
             currentLivingShardplate.CalculateArmor();
+            currentLivingShardplate.GetComponent<CharacterEvents>().LoseArmor();
             allyScript.livingShardplate = true;
             currentLivingShardplate = allyScript;
             currentLivingShardplate.CalculateArmor();
-            animator.Play("Adhesion");
+            currentLivingShardplate.GetComponent<CharacterEvents>().GainArmor();
         }
     }
 
-    void SayTheWordsInitiate(TileScript clickedTile)
+    void SayTheWords(TileScript clickedTile)
     {
         if(clickedTile.occupation == gameObject)
         {
             playerScript.ultimateActive = false;
             playerScript.ultimateCD = playerScript.maxUltimateCD;
-            animator.Play("SayTheWords");
+            playerScript.GetHealed(playerScript.maxHealth);
+            stormlight = maxStormlight;
+            uim.UpdateMana(stormlight, stormlightColor);
+            StartCoroutine(generalEffects.BuffAnimation(glyphSprite));
         }
     }
-
-    public void SayTheWordsFinal()
-    {
-        playerScript.GetHealed(playerScript.maxHealth);
-        stormlight = maxStormlight;
-        uim.UpdateMana(stormlight, stormlightColor);
-    }
-
 
     public override void ActivateAbility(int abilityID)
     {

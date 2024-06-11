@@ -14,21 +14,14 @@ public class VinAbilities : CharacterAbilities
     UIManager uim;
     int maxMetals = 5;
     int metals;
+    TokenJump tokenJump;
 
     int glassDaggersRange = 1;
     [SerializeField] int glassDaggersDamage = 6;
 
     int pewter;
 
-    TileScript steelpushDestination;
-    public bool steelpush = false;
-    float steelpushTotalDistance;
-    float steelpushDistance;
-    Vector2 steelpushDirection;
-    float steelpushSpeed = 4;
-    float arcHeight = 3;
-    float midpoint;
-    float arcWidth;
+    bool steelpush = false;
 
     bool duralumin;
 
@@ -62,6 +55,7 @@ public class VinAbilities : CharacterAbilities
 
         playerMovement = GetComponent<PlayerMovement>();
         uim = tm.gameObject.GetComponent<UIManager>();
+        tokenJump = GetComponentInChildren<TokenJump>();
         metals = maxMetals;
     }
 
@@ -69,7 +63,6 @@ public class VinAbilities : CharacterAbilities
     {
         if (steelpush)
         {
-            SteelPush();
             pathfinding.ResetTiles();
             return;
         }
@@ -199,7 +192,7 @@ public class VinAbilities : CharacterAbilities
                 GlassDaggersInitiate(clickedTile);
                 break;
             case 3:
-                animator.Play("MetalVial");
+                MetalVial();
                 break;
             case 4:
                 Pewter();
@@ -211,7 +204,7 @@ public class VinAbilities : CharacterAbilities
                 duralumin = true;
                 playerScript.abilityCooldowns[6] = playerScript.maxAbilityCooldowns[6];
                 playerScript.ActivateAbility(0);
-                animator.Play("Duralumin");
+                playerScript.characterEvents.CustomEffect(1);
                 break;
         }
     }
@@ -223,7 +216,7 @@ public class VinAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("GlassDaggers");
+            tokenAnimations.MeleeAttack(currentTarget.transform.position, GlassDaggersFinish);
         }
     }
 
@@ -237,6 +230,7 @@ public class VinAbilities : CharacterAbilities
 
     public void MetalVial()
     {
+        playerScript.characterEvents.Buff();
         metals = maxMetals;
         uim.UpdateMana(metals, metalColor);
         playerScript.actionPoints -= playerScript.actionPointCosts[3];
@@ -246,7 +240,7 @@ public class VinAbilities : CharacterAbilities
 
     void Pewter()
     {
-        animator.Play("Pewter");
+        playerScript.characterEvents.CustomEffect(0);
         int amount;
         if (duralumin)
         {
@@ -274,14 +268,8 @@ public class VinAbilities : CharacterAbilities
     {
         if (!clickedTile.occupied)
         {
-            animator.Play("Takeoff");
-            playerScript.FaceCharacter(clickedTile.transform);
-            steelpushDestination = clickedTile;
-            steelpushTotalDistance = Vector2.Distance(transform.position, steelpushDestination.transform.position);
-            steelpushDirection = steelpushDestination.transform.position - transform.position;
-            playerMovement.movePoint.position = transform.position;
-            midpoint = steelpushTotalDistance / 2;
-            arcWidth = arcHeight / Mathf.Pow(midpoint, 2);
+            tokenJump.Jump(transform.position, clickedTile.transform.position, () => steelpush = false);
+            steelpush = true;
             playerScript.actionPoints -= playerScript.actionPointCosts[5];
             playerScript.abilityCooldowns[5] = playerScript.maxAbilityCooldowns[5];
             if (duralumin)
@@ -306,32 +294,9 @@ public class VinAbilities : CharacterAbilities
         }
     }
 
-
-    void SteelPush()
-    {
-        playerMovement.movePoint.Translate(steelpushDirection.normalized * Time.deltaTime * steelpushSpeed);
-        steelpushDistance = Vector2.Distance(playerMovement.movePoint.position, steelpushDestination.transform.position);
-        float currentHeight = -arcWidth * Mathf.Pow(steelpushDistance - midpoint, 2) + arcHeight;
-        transform.position = playerMovement.movePoint.position + new Vector3(0, currentHeight,0);
-        float distanceDecimal = steelpushDistance / steelpushTotalDistance;
-        animator.SetFloat("SteelpushDistance", distanceDecimal);
-        if(steelpushDistance <= 0.1f)
-        {
-            transform.position = steelpushDestination.transform.position;
-            steelpush = false;
-        }
-    }
-
-    public void SteelLanding()
-    {
-        TileScript currentTile = pathfinding.GetCurrentTile();
-        playerMovement.OccupyTile(currentTile);
-        currentTile.occupied = true;
-        currentTile.occupation = this.gameObject;
-    }
-
     public void OneWithTheMists()
     {
+        playerScript.characterEvents.CustomEffect(2);
         playerScript.ultimateActive = false;
         playerScript.ultimateCD = playerScript.maxUltimateCD;
         oneWithMists = oneWithMistsMax;

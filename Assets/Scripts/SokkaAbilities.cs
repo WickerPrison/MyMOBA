@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SokkaAbilities : CharacterAbilities
@@ -10,6 +11,8 @@ public class SokkaAbilities : CharacterAbilities
     [SerializeField] PathfindingParameters attackParameters;
     [SerializeField] PathfindingParameters buffParameters;
     [SerializeField] SpriteRenderer dayOfBlackSunSprite;
+    [SerializeField] GameObject boomerangPrefab;
+    [SerializeField] GameObject stinkBombPrefab;
     int boomerangRange = 3;
     [SerializeField] int boomerangDamage = 5;
     int swordRange = 1;
@@ -30,7 +33,7 @@ public class SokkaAbilities : CharacterAbilities
         playerScript.actionPointCosts.Add(1);
         playerScript.maxAbilityCooldowns.Add(0);
         // switch weapon cost and cooldown
-        playerScript.actionPointCosts.Add(0);
+        playerScript.actionPointCosts.Add(1);
         playerScript.maxAbilityCooldowns.Add(0);
         // Sneak Attack cost and cooldown
         playerScript.actionPointCosts.Add(0);
@@ -77,15 +80,14 @@ public class SokkaAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                if(weapon == 0)
+                pathfinding.Pathfinder(currentTile, attackParameters, boomerangRange, true);
+                if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
-                    pathfinding.Pathfinder(currentTile, attackParameters, boomerangRange, true);
+                    mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
                 }
-                else
-                {
-                    pathfinding.Pathfinder(currentTile, attackParameters, swordRange, true);
-                }
-
+                break;
+            case 3:
+                pathfinding.Pathfinder(currentTile, attackParameters, swordRange, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -173,14 +175,10 @@ public class SokkaAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                if(weapon == 0)
-                {
-                    BoomerangInitiate(clickedTile);
-                }
-                else
-                {
-                    SwordInitiate(clickedTile);
-                }
+                BoomerangInitiate(clickedTile);
+                break;
+            case 3:
+                SwordInitiate(clickedTile);
                 break;
             case 4:
                 SneakAttack();
@@ -201,7 +199,11 @@ public class SokkaAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("Boomerang");
+            Boomerang boomerangScript = Instantiate(boomerangPrefab).GetComponent<Boomerang>();
+            boomerangScript.transform.position = transform.position;
+            boomerangScript.target = currentTarget.transform;
+            boomerangScript.returnPosition = transform;
+            boomerangScript.abilities = this;
         }
     }
 
@@ -212,11 +214,6 @@ public class SokkaAbilities : CharacterAbilities
         playerScript.actionPoints = 0;
         currentTarget = null;
     }
-
-    public void CatchBoomerang()
-    {
-        animator.Play("CatchBoomerang");
-    }
  
     void SwordInitiate(TileScript clickedTile)
     {
@@ -225,7 +222,7 @@ public class SokkaAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("SpaceSword");
+            tokenAnimations.MeleeAttack(enemyScript.transform.position, SwordFinal);
         }
     }
     
@@ -266,7 +263,7 @@ public class SokkaAbilities : CharacterAbilities
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;
-            animator.Play("FlyingKickAPow");
+            tokenAnimations.MeleeAttack(enemyScript.transform.position, FlyingKickAPowFinal);
         }
     }
 
@@ -321,6 +318,10 @@ public class SokkaAbilities : CharacterAbilities
         playerScript.abilityCooldowns[6] = playerScript.maxAbilityCooldowns[6];
         playerScript.actionPoints = 0;
         currentTarget = null;
+        StinkBomb stinkBombScript = Instantiate(stinkBombPrefab).GetComponent<StinkBomb>();
+        stinkBombScript.transform.position = transform.position;
+        stinkBombScript.target = stinkBombTarget;
+        stinkBombScript.myTeam = gameObject.tag;
     }
 
     void DayOfBlackSunStart()
@@ -348,13 +349,6 @@ public class SokkaAbilities : CharacterAbilities
     public override void ActivateAbility(int abilityID)
     {
         base.ActivateAbility(abilityID);
-        if(abilityID == 3)
-        {
-            animator.Play("SwitchWeapon");
-        }
-        else
-        {
-            playerScript.ActivateAbility(abilityID);
-        }
+        playerScript.ActivateAbility(abilityID);
     }
 }

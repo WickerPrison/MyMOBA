@@ -21,15 +21,8 @@ public class BheemAnimationAbilities : MonoBehaviour
 
     public void Leaves()
     {
-        abilitiesScript.LeavesFinal();
+        //abilitiesScript.LeavesFinal();
     }
 
-    public void ThrowSleepPot()
-    {
-        sleepPot = Instantiate(sleepPotPrefab).GetComponent<Projectile>();
-        sleepPot.transform.position = backHand.position;
-        sleepPot.target = abilitiesScript.sleepPotTarget;
-        sleepPot.myTeam = abilitiesScript.gameObject.tag;
-        sleepPot.abilities = abilitiesScript;
-    }
+
 }

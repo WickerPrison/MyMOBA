@@ -136,7 +136,6 @@ public class PlayerMovement : MonoBehaviour
             GetPath(clickedTile);
             if(path.Count - 1 == playerScript.moveSpeed + playerScript.moveSpeedModifier && !clickedTile.occupied)
             {
-                playerScript.FaceCharacter(clickedTile.transform);
                 FollowPath();
             }
             else if(path.Count - 1 < playerScript.moveSpeed + playerScript.moveSpeedModifier)

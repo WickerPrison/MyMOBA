@@ -1,18 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class LiftAbilities : CharacterAbilities
 {
     [SerializeField] PathfindingParameters slicknessParameters;
     [SerializeField] PathfindingParameters pickpocketParameters;
     [SerializeField] PathfindingParameters healingParameters;
-    [SerializeField] Animator animator;
     [SerializeField] Color lifelightColor;
+    StormlightAnimations stormlightAnimations;
     PlayerMovement playerMovement;
     PlayerScript currentTarget;
     UIManager uim;
@@ -38,6 +34,7 @@ public class LiftAbilities : CharacterAbilities
     {
         base.Start();
         playerMovement = GetComponent<PlayerMovement>();
+        stormlightAnimations = GetComponentInChildren<StormlightAnimations>();
 
         // Food heist cost and cooldown
         playerScript.actionPointCosts.Add(1);
@@ -181,10 +178,10 @@ public class LiftAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                FoodHeistInitiate(clickedTile);
+                FoodHeist(clickedTile);
                 break;
             case 3:
-                EatPancakesInitiate();
+                EatPancakes();
                 break;
             case 4:
                 SlicknessInitiate(clickedTile);
@@ -195,7 +192,7 @@ public class LiftAbilities : CharacterAbilities
         }
     }
 
-    void FoodHeistInitiate(TileScript clickedTile)
+    void FoodHeist(TileScript clickedTile)
     {
         PlayerScript targetScript = clickedTile.occupation.GetComponent<PlayerScript>();
         if (targetScript != null)
@@ -205,53 +202,44 @@ public class LiftAbilities : CharacterAbilities
             playerScript.actionPoints -= playerScript.actionPointCosts[2];
             playerScript.abilityCooldowns[2] = playerScript.maxAbilityCooldowns[2];
             playerScript.ActivateAbility(0);
-            animator.Play("Pickpocket");
+            currentTarget.DecreaseTurnMeter(foodHeistTurnMeter);
+            playerScript.characterEvents.Buff();
+            food += 5;
+            if (food > foodMax)
+            {
+                food = foodMax;
+            }
+            currentTarget = null;
         }
     }
 
-    public void FoodHeistFinal()
-    {
-        currentTarget.DecreaseTurnMeter(foodHeistTurnMeter);
-        food += 5;
-        if(food > foodMax)
-        {
-            food = foodMax;
-        }
-        currentTarget = null;
-    }
-
-    void EatPancakesInitiate()
+    void EatPancakes()
     {
         if(lifelight < maxLifelight && food > 0)
         {
             playerScript.actionPoints -= playerScript.actionPointCosts[3];
             playerScript.abilityCooldowns[3] = playerScript.maxAbilityCooldowns[3];
             playerScript.ActivateAbility(0);
-            animator.Play("EatPancakes");
+            int lifeLightDiff = maxLifelight - lifelight;
+            if (lifeLightDiff >= food)
+            {
+                lifelight += food;
+                food = 0;
+            }
+            else
+            {
+                lifelight = maxLifelight;
+                food -= lifeLightDiff;
+            }
+            uim.UpdateMana(lifelight, lifelightColor);
+            stormlightAnimations.StormlightFlare();
         }
-    }
-
-    public void EatPancakesFinal()
-    {
-        int lifeLightDiff = maxLifelight - lifelight;
-        if(lifeLightDiff >= food)
-        {
-            lifelight += food;
-            food = 0;
-        }
-        else
-        {
-            lifelight = maxLifelight;
-            food -= lifeLightDiff;
-        }
-        uim.UpdateMana(lifelight, lifelightColor);
     }
 
     void SlicknessInitiate(TileScript clickedTile)
     {
         if (!clickedTile.occupied)
         {
-            animator.Play("Slickness");
             playerScript.FaceCharacter(clickedTile.transform);
             slicknessDestination = clickedTile;
             slicknessDirection = slicknessDestination.transform.position - transform.position;
@@ -263,6 +251,7 @@ public class LiftAbilities : CharacterAbilities
             TileScript currentTile = pathfinding.GetCurrentTile();
             currentTile.occupied = false;
             currentTile.occupation = currentTile.gameObject;
+            stormlightAnimations.StartStormlight(() => sliding = true);
         }
     }
 
@@ -277,10 +266,13 @@ public class LiftAbilities : CharacterAbilities
             sliding = false;
             TileScript currentTile = pathfinding.GetCurrentTile();
             playerMovement.OccupyTile(currentTile);
-            animator.Play("StandUp");
             if (playerScript.ultimateActive)
             {
                 AwesomenessArrival(currentTile);
+            }
+            else
+            {
+                stormlightAnimations.EndStormlight();
             }
         }
     }
@@ -290,12 +282,11 @@ public class LiftAbilities : CharacterAbilities
         PlayerScript ally = clickedTile.occupation.GetComponent<PlayerScript>();
         if(ally != null && ally.gameObject.CompareTag(gameObject.tag) && ally.health < ally.maxHealth)
         {
-            playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = ally;
             playerScript.actionPoints -= playerScript.actionPointCosts[5];
             playerScript.abilityCooldowns[5] = playerScript.maxAbilityCooldowns[5];
             playerScript.ActivateAbility(0);
-            animator.Play("Regrowth");
+            stormlightAnimations.StartStormlight(RegrowthFinal);
         }
     }
 
@@ -305,14 +296,14 @@ public class LiftAbilities : CharacterAbilities
         uim.UpdateMana(lifelight, lifelightColor);
         currentTarget.GetHealed(regrowthAmount);
         currentTarget = null;
+        StartCoroutine(Delay(0.3f, stormlightAnimations.EndStormlight));
     }
 
     void AwesomenessInitiate( TileScript clickedTile)
     {
         if (!clickedTile.occupied)
         {
-            animator.Play("Slickness");
-            playerScript.FaceCharacter(clickedTile.transform);
+            stormlightAnimations.StartStormlight(() => sliding = true);
             slicknessDestination = clickedTile;
             slicknessDirection = slicknessDestination.transform.position - transform.position;
             playerMovement.movePoint.position = transform.position;
@@ -326,6 +317,7 @@ public class LiftAbilities : CharacterAbilities
     void AwesomenessArrival(TileScript currentTile)
     {
         awesomenessNumber--;
+        stormlightAnimations.StormlightPulse();
         foreach(TileScript tile in currentTile.adjacencyList)
         {
             if (tile.occupation.CompareTag(gameObject.tag))
@@ -342,6 +334,7 @@ public class LiftAbilities : CharacterAbilities
             playerScript.actionPoints -= playerScript.ultimateAPCost;
             playerScript.ultimateCD = playerScript.maxUltimateCD;
             currentTarget = null;
+            stormlightAnimations.EndStormlight();
         }
     }
 

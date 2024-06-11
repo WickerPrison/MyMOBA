@@ -22,6 +22,7 @@ public class TileScript : MonoBehaviour
     public bool selectable = false;
     public GameObject occupation;
     public int spawnPointTeam;
+    [System.NonSerialized] public int threats = 0;
 
     private void Start()
     {

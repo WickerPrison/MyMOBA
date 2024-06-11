@@ -7,6 +7,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class Grenade : MonoBehaviour
 {
     [SerializeField] Transform movePoint;
+    [SerializeField] GameObject explosion;
     public TileScript targetTile;
     public Vector3 startingPosition;
     float throwDistance;
@@ -44,12 +45,19 @@ public class Grenade : MonoBehaviour
             {
                 transform.position = targetTile.transform.position;
                 atDestination = true;
+                targetTile.threats += 1;
+                foreach(TileScript tile in targetTile.adjacencyList)
+                {
+                    tile.threats += 1;
+                }
             }
         }
     }
 
     public void Explode()
     {
+        targetTile.threats -= 1;
+
         PlayerScript targetScript = targetTile.occupation.GetComponent<PlayerScript>();
         if (targetScript != null)
         {
@@ -58,6 +66,7 @@ public class Grenade : MonoBehaviour
 
         foreach(TileScript tile in targetTile.adjacencyList)
         {
+            tile.threats -= 1;
             targetScript = tile.occupation.GetComponent<PlayerScript>();
             if (targetScript != null)
             {
@@ -65,6 +74,7 @@ public class Grenade : MonoBehaviour
             }
         }
 
+        Instantiate(explosion).transform.position = transform.position;
         Destroy(gameObject);
     }
 }
