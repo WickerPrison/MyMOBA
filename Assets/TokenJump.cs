@@ -67,7 +67,7 @@ public class TokenJump : MonoBehaviour
         TileScript currentTile = pathfinding.GetCurrentTile();
         playerMovement.OccupyTile(currentTile);
         currentTile.occupied = true;
-        currentTile.occupation = gameObject;
+        currentTile.occupation = player.gameObject;
         arrivalFunction();
     }
 }

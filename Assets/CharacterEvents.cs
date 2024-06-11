@@ -11,6 +11,7 @@ public class CharacterEvents : MonoBehaviour
     public event EventHandler OnLoseTurnMeter;
     public event EventHandler OnGainTurnMeter;
     public event EventHandler OnBuff;
+    public event EventHandler OnDebuff;
     public event EventHandler OnHeal;
     public event EventHandler OnSilenced;
 
@@ -44,6 +45,11 @@ public class CharacterEvents : MonoBehaviour
     public void Buff()
     {
         OnBuff?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void Debuff()
+    {
+        OnDebuff?.Invoke(this, EventArgs.Empty);
     }
 
     public void Heal()

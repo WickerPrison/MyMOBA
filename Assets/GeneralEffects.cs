@@ -9,6 +9,7 @@ public class GeneralEffects : MonoBehaviour
     [SerializeField] SpriteRenderer armorSprite;
     [SerializeField] SpriteRenderer turnMeterSprite;
     [SerializeField] SpriteRenderer buffSprite;
+    [SerializeField] SpriteRenderer debuffSprite;
     [SerializeField] SpriteRenderer healSprite;
     [SerializeField] SpriteRenderer silencedSprite;
     [SerializeField] SpriteRenderer[] customEffects;
@@ -47,6 +48,11 @@ public class GeneralEffects : MonoBehaviour
     private void OnBuff(object sender, System.EventArgs e)
     {
         StartCoroutine(BuffAnimation(buffSprite));
+    }
+
+    private void OnDebuff(object sender, System.EventArgs e)
+    {
+        StartCoroutine(BuffAnimation(debuffSprite));
     }
 
     private void OnHeal(object sender, System.EventArgs e)
@@ -98,10 +104,12 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnLoseTurnMeter += OnLoseTurnMeter;
         characterEvents.OnGainTurnMeter += OnGainTurnMeter;
         characterEvents.OnBuff += OnBuff;
+        characterEvents.OnDebuff += OnDebuff;
         characterEvents.OnHeal += OnHeal;
         characterEvents.OnSilenced += OnSilenced;
         characterEvents.OnCustomEffect += OnCustomEffect;
     }
+
 
 
     private void OnDisable()
@@ -111,6 +119,7 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnLoseTurnMeter -= OnLoseTurnMeter;
         characterEvents.OnGainTurnMeter -= OnGainTurnMeter;
         characterEvents.OnBuff -= OnBuff;
+        characterEvents.OnDebuff -= OnDebuff;
         characterEvents.OnHeal -= OnHeal;
         characterEvents.OnSilenced -= OnSilenced;
         characterEvents.OnCustomEffect -= OnCustomEffect;
