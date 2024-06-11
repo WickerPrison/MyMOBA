@@ -12,13 +12,24 @@ public class GeneralEffects : MonoBehaviour
     [SerializeField] SpriteRenderer debuffSprite;
     [SerializeField] SpriteRenderer healSprite;
     [SerializeField] SpriteRenderer silencedSprite;
+    [SerializeField] SpriteRenderer sleepSprite;
     [SerializeField] SpriteRenderer[] customEffects;
+    [SerializeField] SpriteRenderer frenzy;
+    bool frenzyActive = false;
     CharacterEvents characterEvents;
     WaitForEndOfFrame endOfFrame = new WaitForEndOfFrame();
 
     private void Awake()
     {
         characterEvents = GetComponentInParent<CharacterEvents>();
+    }
+
+    private void Update()
+    {
+        if (frenzyActive)
+        {
+            frenzy.transform.Rotate(new Vector3(0, 0, Time.deltaTime * 200));
+        }
     }
 
     private void OnGainArmor(object sender, System.EventArgs e)
@@ -65,9 +76,20 @@ public class GeneralEffects : MonoBehaviour
         StartCoroutine(BuffAnimation(silencedSprite));
     }
 
+    private void OnSleep(object sender, System.EventArgs e)
+    {
+        StartCoroutine(BuffAnimation(sleepSprite));
+    }
+
     private void OnCustomEffect(CharacterEvents sender, int effectIndex)
     {
         StartCoroutine(BuffAnimation(customEffects[effectIndex]));
+    }
+
+    private void OnFrenzy(CharacterEvents arg1, bool isActive)
+    {
+        frenzyActive = isActive;
+        frenzy.enabled = isActive;
     }
 
     public IEnumerator BuffAnimation(SpriteRenderer sprite)
@@ -107,10 +129,10 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnDebuff += OnDebuff;
         characterEvents.OnHeal += OnHeal;
         characterEvents.OnSilenced += OnSilenced;
+        characterEvents.OnSleep += OnSleep;
         characterEvents.OnCustomEffect += OnCustomEffect;
+        characterEvents.OnFrenzy += OnFrenzy;
     }
-
-
 
     private void OnDisable()
     {
@@ -122,6 +144,8 @@ public class GeneralEffects : MonoBehaviour
         characterEvents.OnDebuff -= OnDebuff;
         characterEvents.OnHeal -= OnHeal;
         characterEvents.OnSilenced -= OnSilenced;
+        characterEvents.OnSleep -= OnSleep;
         characterEvents.OnCustomEffect -= OnCustomEffect;
+        characterEvents.OnFrenzy -= OnFrenzy;
     }
 }

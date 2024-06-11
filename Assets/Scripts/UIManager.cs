@@ -53,6 +53,8 @@ public class UIManager : MonoBehaviour
                 actionPointCounters[i].enabled = false;
             }
         }
+
+        actionPointCounters[2].enabled = currentPlayer.actionPoints > currentPlayer.actionPointMax;
     }
 
     public void UpdateMana(int mana, Color color)

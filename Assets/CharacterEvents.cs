@@ -14,7 +14,9 @@ public class CharacterEvents : MonoBehaviour
     public event EventHandler OnDebuff;
     public event EventHandler OnHeal;
     public event EventHandler OnSilenced;
+    public event EventHandler OnSleep;
 
+    public event Action<CharacterEvents, bool> OnFrenzy; 
     public event Action<CharacterEvents, int> OnCustomEffect;
 
     public void TakeDamage()
@@ -62,9 +64,19 @@ public class CharacterEvents : MonoBehaviour
         OnSilenced?.Invoke(this, EventArgs.Empty);
     }
 
+    public void Sleep()
+    {
+        OnSleep?.Invoke(this, EventArgs.Empty);
+    }
+
     public void CustomEffect(int effectIndex)
     {
         OnCustomEffect?.Invoke(this, effectIndex);
+    }
+
+    public void Frenzy(bool isActive)
+    {
+        OnFrenzy?.Invoke(this, isActive);
     }
 
     //private void OnEnable()

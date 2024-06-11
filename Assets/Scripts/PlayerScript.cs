@@ -63,6 +63,7 @@ public class PlayerScript : MonoBehaviour
     [System.NonSerialized] public int stun = 0;
     [System.NonSerialized] public bool dayOfBlackSun = false;
     [System.NonSerialized] public int sleep = 0;
+    [System.NonSerialized] public int frenzy = 0;
     [System.NonSerialized] public bool ultimateActive = false;
     [System.NonSerialized] public List<int> greyedOutAbilities = new List<int>();
     [System.NonSerialized] public List<int> silenceableAbilities = new List<int>();
@@ -174,7 +175,6 @@ public class PlayerScript : MonoBehaviour
 
     public void StartTurn()
     {
-        uim.SetupUIforTurn(this);
         ActivateAbility(0);
         if(respawnTimer > 0)
         {
@@ -192,14 +192,15 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        StatusEffects();
-
-        characterAbilities.StartTurn();
-
         if (!dead)
         {
             actionPoints = actionPointMax;
         }
+
+        StatusEffects();
+
+        characterAbilities.StartTurn();
+        uim.SetupUIforTurn(this);
     }
 
     public void EndTurn()
@@ -363,6 +364,12 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
+        if(frenzy > 0)
+        {
+            actionPoints += 1;
+            frenzy--;
+        }
+
         CalculateMoveSpeed();
         CalculateArmor();
     }
@@ -396,6 +403,11 @@ public class PlayerScript : MonoBehaviour
         if (respawning)
         {
             return;
+        }
+
+        if(frenzy <= 0)
+        {
+            characterEvents.Frenzy(false);
         }
 
         turnMeter = 0;

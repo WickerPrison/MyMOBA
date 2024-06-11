@@ -16,6 +16,8 @@ public class BheemAbilities : CharacterAbilities
 
     int sleepPotDuration = 2;
 
+    int inspiringSongTurnMeter = 500;
+
 
     public override void Start()
     {
@@ -41,7 +43,7 @@ public class BheemAbilities : CharacterAbilities
 
     private void Update()
     {
-        if (playerScript.activeAbility <= 1)
+        if (playerScript.activeAbility <= 1 && !playerScript.ultimateActive)
         {
             return;
         }
@@ -50,6 +52,17 @@ public class BheemAbilities : CharacterAbilities
         TileScript currentTile = pathfinding.GetCurrentTile();
         currentTile.UpdateSelectionColor(1, true);
         TileScript mouseTile = mouseOverTiles.GetClickedTile();
+
+        if (playerScript.ultimateActive)
+        {
+            pathfinding.Pathfinder(currentTile, buffParameters, 3, true);
+            if(mouseTile != null && mouseTile.selectable)
+            {
+                pathfinding.ResetTiles();
+                pathfinding.Pathfinder(currentTile, buffParameters, 3, false);
+                currentTile.UpdateSelectionColor(buffParameters.selectionColor, false);
+            }
+        }
 
         switch (playerScript.activeAbility)
         {
@@ -99,6 +112,11 @@ public class BheemAbilities : CharacterAbilities
         if (clickedTile == null || !clickedTile.selectable)
         {
             return;
+        }
+
+        if(playerScript.ultimateActive && playerScript.actionPoints >= playerScript.ultimateAPCost)
+        {
+            InspiringSong();
         }
 
         switch (playerScript.activeAbility)
@@ -185,9 +203,29 @@ public class BheemAbilities : CharacterAbilities
         base.ProjectileHit(target);
 
         PlayerScript enemyScript = target.occupation.GetComponent<PlayerScript>();
+        enemyScript.characterEvents.Sleep();
         if(enemyScript.sleep < sleepPotDuration)
         {
             enemyScript.sleep = sleepPotDuration;
+        }
+    }
+
+    void InspiringSong()
+    {
+        playerScript.ultimateActive = false;
+        playerScript.ActivateAbility(0);
+        playerScript.actionPoints -= playerScript.ultimateAPCost;
+        playerScript.ultimateCD = playerScript.maxUltimateCD;
+        foreach(PlayerScript player in tm.players)
+        {
+            Pathfinding playerPathfinding = player.GetComponent<Pathfinding>();
+            TileScript playerTile = playerPathfinding.GetCurrentTile(); 
+            if(player.CompareTag(gameObject.tag) && playerTile.selectable)
+            {
+                player.IncreaseTurnMeter(inspiringSongTurnMeter);
+                player.frenzy += 2;
+                player.characterEvents.Frenzy(true);
+            }
         }
     }
 

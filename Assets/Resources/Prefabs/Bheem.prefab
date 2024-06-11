@@ -1821,7 +1821,7 @@ MonoBehaviour:
   respawnTime: 2
   movementCost: 1
   maxUltimateCD: 0
-  ultimateAPCost: 0
+  ultimateAPCost: 1
   myTeam: 2
   characterSprite: {fileID: 1357001349007851281}
   statusLibrary: {fileID: 11400000, guid: f94a239e3435de24295bb3c3ec25c97a, type: 2}
@@ -1830,7 +1830,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bfc1c45306760da4197107d25ba0580a, type: 3}
   - {fileID: 21300000, guid: a6a2a3bce60f6134cb33adda44164cca, type: 3}
   - {fileID: 21300000, guid: f4e53ff68b59d7344aa4a500fe53ef04, type: 3}
-  ultimateIcon: {fileID: 21300000, guid: 72805f393c8d93b4c84ec78e0a7d06b7, type: 3}
+  ultimateIcon: {fileID: 21300000, guid: 6db980103c403da47bc8c6ce6dc3015b, type: 3}
   portrait: {fileID: 21300000, guid: d4aa64bd70254cc4a93caeaa07358242, type: 3}
 --- !u!114 &177942475781375416
 MonoBehaviour:
