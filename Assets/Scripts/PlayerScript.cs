@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class PlayerScript : MonoBehaviour
     public int ultimateAPCost;
 
     // editable things
+    [SerializeField] TextAsset characterJSON;
     public int myTeam;
     [SerializeField] Transform characterSprite;
     [SerializeField] StatusLibrary statusLibrary;
@@ -36,6 +38,7 @@ public class PlayerScript : MonoBehaviour
     HealthBar healthBar;
 
     // non editable public variables
+    [System.NonSerialized] public CharacterData characterData;
     [System.NonSerialized] public CharacterEvents characterEvents;
     [System.NonSerialized] public int health;
     [System.NonSerialized] public int ultimateCD;
@@ -90,6 +93,8 @@ public class PlayerScript : MonoBehaviour
 
     private void Start()
     {
+        characterData = JSONreader.ReadJSON(characterJSON);
+
         characterSpriteX = characterSprite.localScale.x;
         if(myTeam == 1)
         {

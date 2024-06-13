@@ -1,0 +1,17 @@
+{
+    "name": "Kaladin",
+    "ultimate": {
+        "name":  "Say the Words",
+        "cooldown": 4,
+        "APcost": 2,
+        "Description": "Immediately regain all health and Stormlight"
+    }
+    "abilities": [
+        {
+            "name": "Windrun",
+            "APcost": 1,
+            "Description": "Fly X tiles.",
+            "additions": "Fly"
+        }
+    ]
+}

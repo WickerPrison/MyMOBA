@@ -1710,8 +1710,9 @@ MonoBehaviour:
   actionPointMax: 2
   respawnTime: 2
   movementCost: 1
-  maxUltimateCD: 2
-  ultimateAPCost: 4
+  maxUltimateCD: 4
+  ultimateAPCost: 2
+  characterJSON: {fileID: 4900000, guid: a674a8362a882b649856dbbb5deccd7c, type: 3}
   myTeam: 0
   characterSprite: {fileID: 5493500839961913122}
   statusLibrary: {fileID: 11400000, guid: f94a239e3435de24295bb3c3ec25c97a, type: 2}

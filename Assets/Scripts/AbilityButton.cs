@@ -16,6 +16,12 @@ public class AbilityButton : MonoBehaviour
     public PlayerScript currentPlayer;
     CharacterAbilities abilitiesScript;
     public int abilityNum;
+    AbilityTooltip abilityTooltip;
+
+    private void Start()
+    {
+        abilityTooltip = GetComponentInChildren<AbilityTooltip>();
+    }
 
     private void Update()
     {
@@ -59,5 +65,10 @@ public class AbilityButton : MonoBehaviour
     public void SetIcon(Sprite sprite)
     {
         abilityIcon.sprite = sprite;
+    }
+
+    public void SetupTooltip(AbilityData abilityData)
+    {
+        abilityTooltip.SetupTooltip(abilityData);
     }
 }

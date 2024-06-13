@@ -13,8 +13,14 @@ public class UltimateButton : MonoBehaviour
     [SerializeField] Image abilityIcon;
     [SerializeField] GameObject counter;
     [SerializeField] TextMeshProUGUI counterText;
+    AbilityTooltip abilityTooltip;
     public PlayerScript currentPlayer;
     CharacterAbilities abilitiesScript;
+
+    private void Start()
+    {
+        abilityTooltip = GetComponentInChildren<AbilityTooltip>();
+    }
 
     private void Update()
     {
@@ -58,5 +64,10 @@ public class UltimateButton : MonoBehaviour
     public void SetIcon(Sprite sprite)
     {
         abilityIcon.sprite = sprite;
+    }
+
+    public void SetupTooltip(AbilityData abilityData)
+    {
+        abilityTooltip.SetupTooltip(abilityData);
     }
 }

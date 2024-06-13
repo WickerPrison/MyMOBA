@@ -117,7 +117,7 @@ public class CharacterAbilities : MonoBehaviour
             return false;
         }
 
-        if (playerScript.actionPoints < 1)
+        if (playerScript.actionPoints < playerScript.ultimateAPCost)
         {
             return false;
         }

@@ -1257,6 +1257,7 @@ MonoBehaviour:
   movementCost: 1
   maxUltimateCD: 3
   ultimateAPCost: 0
+  characterJSON: {fileID: 4900000, guid: a674a8362a882b649856dbbb5deccd7c, type: 3}
   myTeam: 0
   characterSprite: {fileID: 4288531453875011803}
   statusLibrary: {fileID: 11400000, guid: f94a239e3435de24295bb3c3ec25c97a, type: 2}
@@ -1297,7 +1298,6 @@ MonoBehaviour:
   animator: {fileID: 3597958749257470238}
   metalColor: {r: 0.3764706, g: 0.3764706, b: 0.3764706, a: 1}
   glassDaggersDamage: 6
-  steelpush: 0
 --- !u!114 &-6933609620857276047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3993,6 +3993,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3017080341623594032}
     m_Modifications:
+    - target: {fileID: 95640356372466996, guid: ccce4667f22e8064fb08306cc5ec594f, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 768781806611502842, guid: ccce4667f22e8064fb08306cc5ec594f, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2811125645902563531, guid: ccce4667f22e8064fb08306cc5ec594f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4068,6 +4076,10 @@ PrefabInstance:
     - target: {fileID: 7244434375592786549, guid: ccce4667f22e8064fb08306cc5ec594f, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 8524008224253915550, guid: ccce4667f22e8064fb08306cc5ec594f, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccce4667f22e8064fb08306cc5ec594f, type: 3}

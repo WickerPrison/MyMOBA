@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
                 ability.currentPlayer = playerScript;
                 ability.abilityNum = i + 2;
                 ability.SetIcon(playerScript.abilityIcons[i]);
+                ability.SetupTooltip(playerScript.characterData.abilities[i]);
             }
             else
             {
@@ -37,6 +38,7 @@ public class UIManager : MonoBehaviour
 
         ultimate.currentPlayer = playerScript;
         ultimate.SetIcon(playerScript.ultimateIcon);
+        ultimate.SetupTooltip(playerScript.characterData.ultimate);
         currentPlayer = playerScript;
     }
 
