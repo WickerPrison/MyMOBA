@@ -22,14 +22,8 @@ public class KaladinAbilities : CharacterAbilities
     int stormlight;
     [SerializeField] int maxStormlight = 10;
 
-    int sylSpearRange = 1;
-    [SerializeField] int sylSpearDamage = 5;
-
-    int gravitationRange = 1;
     bool gravitationTargetSelected = false;
-    int gravitationMovementRange = 2;
     bool adhesionActive = false;
-    int adhesionDuration = 2;
     int livingShardplateRange = 5;
 
     public override void Start()
@@ -38,21 +32,16 @@ public class KaladinAbilities : CharacterAbilities
         stormlightAnimations = GetComponentInChildren<StormlightAnimations>();
         generalEffects = GetComponentInChildren<GeneralEffects>();
 
-        // spear attack cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // moving other player cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(2);
-        playerScript.silenceableAbilities.Add(3);
-        // stick to ground cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(3);
-        playerScript.silenceableAbilities.Add(4);
-        // living shardplate cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(0);
-        playerScript.silenceableAbilities.Add(5);
+
+        for(int i = 1; i < playerScript.characterData.abilities.Length; i++)
+        {
+            playerScript.actionPointCosts.Add(playerScript.characterData.abilities[i].APcost);
+            playerScript.maxAbilityCooldowns.Add(playerScript.characterData.abilities[i].cooldown);
+            if (playerScript.characterData.abilities[i].silenceable)
+            {
+                playerScript.silenceableAbilities.Add(i);
+            }
+        }
 
         playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
 
@@ -93,7 +82,7 @@ public class KaladinAbilities : CharacterAbilities
         {
             case 2:
                 gravitationTargetSelected = false;
-                pathfinding.Pathfinder(currentTile, attackParameters, sylSpearRange, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[1].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -104,7 +93,7 @@ public class KaladinAbilities : CharacterAbilities
                 if (gravitationTargetSelected)
                 {
                     Pathfinding targetPathfinding = currentTarget.GetComponent<Pathfinding>();
-                    pathfinding.Pathfinder(targetPathfinding.GetCurrentTile(), gravitationMovementParameters, gravitationMovementRange, true);
+                    pathfinding.Pathfinder(targetPathfinding.GetCurrentTile(), gravitationMovementParameters, playerScript.characterData.abilities[2].moveEffectRange, true);
                     if(mouseTile != null && mouseTile.selectable)
                     {
                         mouseTile.UpdateSelectionColor(gravitationMovementParameters.selectionColor, false);
@@ -113,7 +102,7 @@ public class KaladinAbilities : CharacterAbilities
                 }
                 else
                 {
-                    pathfinding.Pathfinder(currentTile, lashingParameters, gravitationRange, true);
+                    pathfinding.Pathfinder(currentTile, lashingParameters, playerScript.characterData.abilities[2].range, true);
                     if(mouseTile != null && mouseTile.occupied && mouseTile.selectable && mouseTile != currentTile)
                     {
                         mouseTile.UpdateSelectionColor(lashingParameters.selectionColor, false);
@@ -216,11 +205,11 @@ public class KaladinAbilities : CharacterAbilities
 
     public void SylSpearFinish()
     {
-        currentTarget.TakeDamage(sylSpearDamage);
-        if (adhesionActive && currentTarget.rooted <= adhesionDuration)
+        currentTarget.TakeDamage(playerScript.characterData.abilities[1].damage);
+        if (adhesionActive && currentTarget.rooted <= playerScript.characterData.abilities[3].duration)
         {
             stormlightAnimations.EndStormlight();
-            currentTarget.rooted = adhesionDuration;
+            currentTarget.rooted = playerScript.characterData.abilities[3].duration;
             adhesionActive = false;
         }
 
@@ -254,10 +243,10 @@ public class KaladinAbilities : CharacterAbilities
         PlayerMovement targetMovement = currentTarget.GetComponent<PlayerMovement>();
         targetMovement.GetPath(lashingTile);
         targetMovement.FollowPath();
-        if(adhesionActive && currentTarget.rooted <= adhesionDuration)
+        if(adhesionActive && currentTarget.rooted <= playerScript.characterData.abilities[3].duration)
         {
             stormlightAnimations.EndStormlight();
-            currentTarget.rooted = adhesionDuration;
+            currentTarget.rooted = playerScript.characterData.abilities[3].duration;
             adhesionActive = false;
         }
         currentTarget = null;

@@ -4,57 +4,51 @@
         "name": "Say the Words",
         "cooldown": 4,
         "APcost": 2,
-        "description": "Immediately regain all health and Stormlight",
-        "variables": [],
-        "additions": []
+        "description": "Immediately regain all health and <b>Stormlight</b>",
+        "additions": ["stormlight"]
     },
     "abilities": [
         {
             "name": "Windrun",
             "APcost": 1,
-            "description": "<u><b>Fly</b></u> moveSpeed tiles.",
-            "variables": [ "moveSpeed" ],
+            "description": "<b>Fly</b> up to _moveSpeed tiles.",
+            "variables": [ "_moveSpeed" ],
             "additions": [ "fly" ]
         },
         {
-            "name": "Ability",
-            "APcost": 0,
+            "name": "Syl Spear",
+            "APcost": 1,
             "cooldown": 0,
-            "description": "Ability description",
-            "variables": [],
-            "additions": []
+            "range": 1,
+            "description": "Deal _damage damage to an adjacent target. <b>Finishing</b>",
+            "variables": [ "_damage" ],
+            "damage": 5,
+            "additions": ["finishing"]
         },
         {
-            "name": "Ability",
-            "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "variables": [],
-            "additions": []
+            "name": "Gravitation Surge",
+            "APcost": 1,
+            "cooldown": 2,
+            "range": 1,
+            "moveEffectRange": 2,
+            "description": "Move an adjacent target up to 2 tiles away."
         },
         {
-            "name": "Ability",
+            "name": "Adhesion Surge",
             "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "variables": [],
-            "additions": []
+            "cooldown": 3,
+            "duration": 2,
+            "description": "The next enemy affected by your Syl Spear or Gravitation Surge on this turn becomes <b>Rooted</b> for _duration turns.",
+            "variables": ["_duration"],
+            "additions": ["rooted"]
         },
         {
-            "name": "Ability",
+            "name": "Living Shardplate",
             "APcost": 0,
             "cooldown": 0,
-            "description": "Ability description",
-            "variables": [],
-            "additions": []
-        },
-        {
-            "name": "Ability",
-            "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "variables": [],
-            "additions": []
+            "range": 5,
+            "description": "Your Shardplate can be used to protect others. You start with <b>Living Shardplate</b>. The target of this ability gains <b>Living Shardplate</b> until you use this ability again.",
+            "additions": ["livingShardplate"]
         }
     ]
 }

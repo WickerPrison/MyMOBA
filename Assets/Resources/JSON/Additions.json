@@ -2,5 +2,21 @@
     "fly": {
         "name": "Fly",
         "description": "Can pass through obstacles, including other characters, but must finish movement on an unobstructed tile."
+    },
+    "stormlight": {
+        "name": "Stormlight",
+        "description": "Used to fuel the special abilities of Knights Radiant."
+    },
+    "finishing": {
+        "name": "Finishing",
+        "description": "The character cannot take any further actions this turn after using this ability."
+    },
+    "rooted": {
+        "name": "Rooted",
+        "description": "You cannot move."
+    },
+    "livingShardplate": {
+        "name": "Living Shardplate",
+        "description":  "Your armor is increased to 3, unless it is already higher"
     }
 }

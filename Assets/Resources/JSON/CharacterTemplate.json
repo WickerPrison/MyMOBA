@@ -5,7 +5,6 @@
         "cooldown": 0,
         "APcost": 1,
         "description": "This character's ultimate ability",
-        "variables": [],
         "additions": []
     },
     "abilities": [
@@ -13,8 +12,8 @@
             "name": "Walk",
             "APcost": 1,
             "cooldown": 0,
-            "description": "Move moveSpeed tiles. Cannot pass through enemies or obstacles.",
-            "variables": ["moveSpeed"],
+            "description": "Move _moveSpeed tiles. Cannot pass through enemies or obstacles.",
+            "variables": ["_moveSpeed"],
             "additions": []
         },
         {
@@ -22,7 +21,6 @@
             "APcost": 0,
             "cooldown": 0,
             "description": "Ability description",
-            "variables": [],
             "additions": []
         },
         {
@@ -30,7 +28,6 @@
             "APcost": 0,
             "cooldown": 0,
             "description": "Ability description",
-            "variables": [],
             "additions": []
         },
         {
@@ -38,7 +35,6 @@
             "APcost": 0,
             "cooldown": 0,
             "description": "Ability description",
-            "variables": [],
             "additions": []
         },
         {
@@ -46,7 +42,6 @@
             "APcost": 0,
             "cooldown": 0,
             "description": "Ability description",
-            "variables": [],
             "additions": []
         },
         {
@@ -54,7 +49,6 @@
             "APcost": 0,
             "cooldown": 0,
             "description": "Ability description",
-            "variables": [],
             "additions": []
         }
     ]

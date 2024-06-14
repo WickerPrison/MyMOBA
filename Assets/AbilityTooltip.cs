@@ -12,6 +12,7 @@ public class AbilityTooltip : MonoBehaviour
     [SerializeField] TextMeshProUGUI abilityName;
     [SerializeField] TextMeshProUGUI APcost;
     [SerializeField] TextMeshProUGUI cooldown;
+    [SerializeField] TextMeshProUGUI range;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextAsset additionsJson;
     [SerializeField] Image image;
@@ -20,6 +21,8 @@ public class AbilityTooltip : MonoBehaviour
     PlayerScript playerScript;
     string descriptionText;
     Additions additions;
+    int damage;
+    int duration;
 
     Dictionary<string, Func<string, string>> variableDict = new Dictionary<string, Func<string, string>>();
 
@@ -31,28 +34,51 @@ public class AbilityTooltip : MonoBehaviour
 
     public void SetupTooltip(AbilityData abilityData, PlayerScript currentPlayer)
     {
+        damage = abilityData.damage;
+        duration = abilityData.duration;
+
         playerScript = currentPlayer;
         abilityName.text = abilityData.name;
         APcost.text = "AP Cost: " + abilityData.APcost;
         cooldown.text = "Cooldown: " + abilityData.cooldown;
 
-        descriptionText = abilityData.description;
-        foreach(string variable in abilityData.variables)
+        if (abilityData.range != 0)
         {
-            descriptionText = variableDict[variable](descriptionText) ;
+            range.text = "Range: " + abilityData.range;
+        }
+        else range.text = "";
+
+        descriptionText = abilityData.description;
+        if(abilityData.variables != null)
+        {
+            foreach(string variable in abilityData.variables)
+            {
+                descriptionText = variableDict[variable](descriptionText) ;
+            }
         }
         description.text = descriptionText;
 
-        for(int i = 0; i < additionUIs.Count; i++)
+
+        if(abilityData.additions == null)
         {
-            if(i >= abilityData.additions.Count())
+            foreach(AdditionUI additionUI in additionUIs)
             {
-                additionUIs[i].Hide();
+                additionUI.Hide();
             }
-            else
+        }
+        else
+        {
+            for(int i = 0; i < additionUIs.Count; i++)
             {
-                Addition addition = additions.GetAddition(abilityData.additions[i]);
-                additionUIs[i].Setup(addition);
+                if(i >= abilityData.additions.Count())
+                {
+                    additionUIs[i].Hide();
+                }
+                else
+                {
+                    Addition addition = additions.GetAddition(abilityData.additions[i]);
+                    additionUIs[i].Setup(addition);
+                }
             }
         }
     }
@@ -63,6 +89,7 @@ public class AbilityTooltip : MonoBehaviour
         abilityName.gameObject.SetActive(true);
         APcost.gameObject.SetActive(true);
         cooldown.gameObject.SetActive(true);
+        range.gameObject.SetActive(true);
         description.gameObject.SetActive(true);
         additionsObject.SetActive(true);
     }
@@ -73,15 +100,24 @@ public class AbilityTooltip : MonoBehaviour
         abilityName.gameObject.SetActive(false);
         APcost.gameObject.SetActive(false);
         cooldown.gameObject.SetActive(false);
+        range.gameObject.SetActive(false);  
         description.gameObject.SetActive(false);
         additionsObject.SetActive(false);
     }
 
     void SetUpTooltipVariables()
     {
-        variableDict.Add("moveSpeed", (input) => {
+        variableDict.Add("_moveSpeed", (input) => {
             int move = playerScript.moveSpeed + playerScript.moveSpeedModifier;
-            return input.Replace("moveSpeed", move.ToString());
+            return input.Replace("_moveSpeed", move.ToString());
+        });
+        variableDict.Add("_damage", (input) =>
+        {
+            return input.Replace("_damage", damage.ToString());
+        });
+        variableDict.Add("_duration", (input) =>
+        {
+            return input.Replace("_duration", duration.ToString());
         });
     }
 }
@@ -92,6 +128,10 @@ class Additions
 {
     Addition error = new Addition("error", "error");
     public Addition fly;
+    public Addition stormlight;
+    public Addition finishing;
+    public Addition rooted;
+    public Addition livingShardplate;
 
     public Addition GetAddition(string input)
     {
@@ -99,6 +139,14 @@ class Additions
         {
             case "fly":
                 return fly;
+            case "stormlight":
+                return stormlight;
+            case "finishing":
+                return finishing;
+            case "rooted":
+                return rooted;
+            case "livingShardplate":
+                return livingShardplate;
             default:
                 return error;
         }
