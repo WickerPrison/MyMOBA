@@ -21,8 +21,7 @@ public class AbilityTooltip : MonoBehaviour
     PlayerScript playerScript;
     string descriptionText;
     Additions additions;
-    int damage;
-    int duration;
+    AbilityData data;
 
     Dictionary<string, Func<string, string>> variableDict = new Dictionary<string, Func<string, string>>();
 
@@ -34,8 +33,7 @@ public class AbilityTooltip : MonoBehaviour
 
     public void SetupTooltip(AbilityData abilityData, PlayerScript currentPlayer)
     {
-        damage = abilityData.damage;
-        duration = abilityData.duration;
+        data = abilityData;
 
         playerScript = currentPlayer;
         abilityName.text = abilityData.name;
@@ -113,11 +111,19 @@ public class AbilityTooltip : MonoBehaviour
         });
         variableDict.Add("_damage", (input) =>
         {
-            return input.Replace("_damage", damage.ToString());
+            return input.Replace("_damage", data.damage.ToString());
         });
         variableDict.Add("_duration", (input) =>
         {
-            return input.Replace("_duration", duration.ToString());
+            return input.Replace("_duration", data.duration.ToString());
+        });
+        variableDict.Add("_gainTurnMeter", (input) =>
+        {
+            return input.Replace("_gainTurnMeter", data.gainTurnMeter.ToString());
+        });
+        variableDict.Add("_moveEffectRange", (input) =>
+        {
+            return input.Replace("_moveEffectRange", data.moveEffectRange.ToString());
         });
     }
 }

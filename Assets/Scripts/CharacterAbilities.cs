@@ -23,6 +23,18 @@ public class CharacterAbilities : MonoBehaviour
         pathfinding = GetComponent<Pathfinding>();
         tokenAnimations = GetComponentInChildren<TokenAnimations>();
         SetupControls();
+
+        for (int i = 1; i < playerScript.characterData.abilities.Length; i++)
+        {
+            playerScript.actionPointCosts.Add(playerScript.characterData.abilities[i].APcost);
+            playerScript.maxAbilityCooldowns.Add(playerScript.characterData.abilities[i].cooldown);
+            if (playerScript.characterData.abilities[i].silenceable)
+            {
+                playerScript.silenceableAbilities.Add(i + 1);
+            }
+        }
+
+        playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
     }
 
     public virtual void UseAbility()

@@ -11,6 +11,8 @@ class Additions
     public Addition finishing;
     public Addition rooted;
     public Addition livingShardplate;
+    public Addition silenced;
+    public Addition stunned;
 
     Dictionary<string, Addition> additionDict = new Dictionary<string, Addition>();
 
@@ -31,6 +33,8 @@ class Additions
         additionDict.Add("finishing", finishing);
         additionDict.Add("rooted", rooted);
         additionDict.Add("livingShardplate", livingShardplate);
+        additionDict.Add("silenced", silenced);
+        additionDict.Add("stunned", stunned);
     }
 }
 

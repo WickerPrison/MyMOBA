@@ -43,6 +43,20 @@ public class UIManager : MonoBehaviour
         currentPlayer = playerScript;
     }
 
+    public void UpdateTooltips(PlayerScript playerScript)
+    {
+        walkButton.SetupTooltip(playerScript.characterData.abilities[0], playerScript);
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            if (i + 2 < playerScript.actionPointCosts.Count)
+            {
+                AbilityButton ability = abilities[i];
+                ability.SetupTooltip(playerScript.characterData.abilities[i + 1], playerScript);
+            }
+        }
+        ultimate.SetupTooltip(playerScript.characterData.ultimate, playerScript);
+    }
+
     private void Update()
     {
         for(int i = 0; i < currentPlayer.actionPointMax; i++)

@@ -62,7 +62,7 @@ public class PlayerScript : MonoBehaviour
         set { silenced = value; characterEvents.Silenced(); }
     }
     [System.NonSerialized] public int rooted = 0;
-    [System.NonSerialized] public int speedBost = 0;
+    [System.NonSerialized] public int speedBoost = 0;
     [System.NonSerialized] public int stun = 0;
     [System.NonSerialized] public bool dayOfBlackSun = false;
     [System.NonSerialized] public int sleep = 0;
@@ -396,9 +396,9 @@ public class PlayerScript : MonoBehaviour
     public void CalculateMoveSpeed()
     {
         moveSpeedModifier = 0;
-        if(speedBost > 0)
+        if(speedBoost > 0)
         {
-            speedBost--;
+            speedBoost--;
             moveSpeedModifier++;
         }
     }

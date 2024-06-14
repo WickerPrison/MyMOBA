@@ -12,9 +12,8 @@
             "name": "Walk",
             "APcost": 1,
             "cooldown": 0,
-            "description": "Move _moveSpeed tiles. Cannot pass through enemies or obstacles.",
-            "variables": ["_moveSpeed"],
-            "additions": []
+            "description": "Move up to _moveSpeed tiles. Cannot pass through enemies or obstacles.",
+            "variables": ["_moveSpeed"]
         },
         {
             "name": "Ability",

@@ -31,7 +31,9 @@
             "cooldown": 2,
             "range": 1,
             "moveEffectRange": 2,
-            "description": "Move an adjacent target up to 2 tiles away."
+            "description": "Move an adjacent target up to _moveEffectRange tiles away.",
+            "variables": ["_moveEffectRange"],
+            "silenceable": true
         },
         {
             "name": "Adhesion Surge",
@@ -39,8 +41,9 @@
             "cooldown": 3,
             "duration": 2,
             "description": "The next enemy affected by your Syl Spear or Gravitation Surge on this turn becomes <b>Rooted</b> for _duration turns.",
-            "variables": ["_duration"],
-            "additions": ["rooted"]
+            "variables": [ "_duration" ],
+            "additions": [ "rooted" ],
+            "silenceable": true
         },
         {
             "name": "Living Shardplate",
@@ -48,7 +51,8 @@
             "cooldown": 0,
             "range": 5,
             "description": "Your Shardplate can be used to protect others. You start with <b>Living Shardplate</b>. The target of this ability gains <b>Living Shardplate</b> until you use this ability again.",
-            "additions": ["livingShardplate"]
+            "additions": [ "livingShardplate" ],
+            "silenceable": true
         }
     ]
 }

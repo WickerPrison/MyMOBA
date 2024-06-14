@@ -17,6 +17,14 @@
     },
     "livingShardplate": {
         "name": "Living Shardplate",
-        "description":  "Your armor is increased to 3, unless it is already higher"
+        "description": "Your armor is increased to 3, unless it is already higher"
+    },
+    "silenced": {
+        "name": "Silenced",
+        "description": "You cannot use any special abilities."
+    },
+    "stunned": {
+        "name": "Stunned",
+        "description": "You cannot use any abilities."
     }
 }

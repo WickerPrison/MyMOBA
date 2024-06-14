@@ -16,6 +16,7 @@ public class AbilityData
     public int moveEffectRange;
     public int damage;
     public int duration;
+    public int gainTurnMeter;
     public string description;
     public string[] variables;
     public string[] additions;

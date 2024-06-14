@@ -13,6 +13,7 @@ public class StinkBomb : MonoBehaviour
     SpriteRenderer sprite;
     ParticleSystem particles;
     bool exploding = false;
+    [System.NonSerialized] public int silenceDuration;
 
     private void Start()
     {
@@ -40,7 +41,7 @@ public class StinkBomb : MonoBehaviour
                 PlayerScript enemy = tile.occupation.GetComponent<PlayerScript>();
                 if(enemy != null && !enemy.CompareTag(myTeam) && enemy.Silenced <= 2)
                 {
-                    enemy.Silenced = 2;
+                    enemy.Silenced = silenceDuration;
                 }
 
             }

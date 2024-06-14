@@ -1,0 +1,74 @@
+{
+    "name": "Sokka",
+    "ultimate": {
+        "name": "Day of Black Sun",
+        "cooldown": 3,
+        "APcost": 1,
+        "duration": 2,
+        "description": "All enemies are <b>Silenced</b> for _duration turns.",
+        "variables": ["_duration"],
+        "additions": ["silenced"]
+    },
+    "abilities": [
+        {
+            "name": "Walk",
+            "APcost": 1,
+            "cooldown": 0,
+            "description": "Move up to _moveSpeed tiles. Cannot pass through enemies or obstacles.",
+            "variables": ["_moveSpeed"]
+        },
+        {
+            "name": "Boomerang",
+            "APcost": 1,
+            "cooldown": 0,
+            "range": 3,
+            "description": "Deal _damage damage to a target within range. <b>Finishing</b>",
+            "variables": [ "_damage" ],
+            "damage": 5,
+            "additions": [ "finishing" ]
+        },
+        {
+            "name": "Space Sword",
+            "APcost": 1,
+            "cooldown": 0,
+            "description": "Deal _damage damage to an adjacent target. Ignores armor. <b>Finishing</b>",
+            "variables": [ "_damage" ],
+            "damage": 5,
+            "additions": ["finishing"]
+        },
+        {
+            "name": "SNEAK ATTACK!!",
+            "APcost": 0,
+            "cooldown": 3,
+            "range": 2,
+            "description": "All allies within range gain _gainTurnMeter Turn Meter and +1 Movement Speed for _duration turns.",
+            "variables": [ "_duration", "_gainTurnMeter" ],
+            "duration": 2,
+            "gainTurnMeter": 170,
+            "silenceable": true
+        },
+        {
+            "name": "Flying Kick-A-Pow",
+            "APcost": 1,
+            "cooldown": 3,
+            "range": 1,
+            "moveEffectRange": 2,
+            "duration": 2,
+            "description": "Shove an adjacent enemy back _moveEffectRange tiles. If they hit an obstacle, they become <b>Stunned</b> for _duration turns.",
+            "variables": [ "_duration", "_moveEffectRange" ],
+            "additions": [ "stunned" ],
+            "silenceable": true
+        },
+        {
+            "name": "Stink Bomb",
+            "APcost": 1,
+            "cooldown": 4,
+            "range": 3,
+            "duration": 2,
+            "description": "Throw a stink bomb to a tile within range. All adjacent enemies become <b>Silenced</b> for _duration turns.",
+            "variables": ["_duration"],
+            "additions": ["silenced"],
+            "silenceable": true
+        }
+    ]
+}

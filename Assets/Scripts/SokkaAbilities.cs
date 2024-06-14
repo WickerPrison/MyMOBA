@@ -13,42 +13,37 @@ public class SokkaAbilities : CharacterAbilities
     [SerializeField] SpriteRenderer dayOfBlackSunSprite;
     [SerializeField] GameObject boomerangPrefab;
     [SerializeField] GameObject stinkBombPrefab;
-    int boomerangRange = 3;
-    [SerializeField] int boomerangDamage = 5;
-    int swordRange = 1;
-    [SerializeField] int swordDamage = 5;
-    int sneakAttackDuration = 2;
-    int sneakAttackTurnMeter = 170;
-    int kickPushDistance = 2;
     public PlayerScript currentTarget;
     public TileScript stinkBombTarget;
+    UIManager uim;
 
-    int dayOfBlackSunMaxDuration = 2;
     int dayOfBlackSunDuration = 0;
 
     public override void Start()
     {
         base.Start();
-        // boomerang/sword attack cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // switch weapon cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // Sneak Attack cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(3);
-        playerScript.silenceableAbilities.Add(4);
-        // flying kick a pow cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(3);
-        playerScript.silenceableAbilities.Add(5);
-        // stink bomb cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(4);
-        playerScript.silenceableAbilities.Add(6);
+        //// boomerang/sword attack cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// switch weapon cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// Sneak Attack cost and cooldown
+        //playerScript.actionPointCosts.Add(0);
+        //playerScript.maxAbilityCooldowns.Add(3);
+        //playerScript.silenceableAbilities.Add(4);
+        //// flying kick a pow cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(3);
+        //playerScript.silenceableAbilities.Add(5);
+        //// stink bomb cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(4);
+        //playerScript.silenceableAbilities.Add(6);
 
-        playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
+        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
+
+        uim = tm.gameObject.GetComponent<UIManager>();
 
         dayOfBlackSunSprite.transform.parent = Camera.main.transform;
         dayOfBlackSunSprite.transform.position = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
@@ -80,21 +75,21 @@ public class SokkaAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                pathfinding.Pathfinder(currentTile, attackParameters, boomerangRange, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[1].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
                 }
                 break;
             case 3:
-                pathfinding.Pathfinder(currentTile, attackParameters, swordRange, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[2].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
                 }
                 break;
             case 4:
-                pathfinding.Pathfinder(currentTile, buffParameters, 2,true);
+                pathfinding.Pathfinder(currentTile, buffParameters, playerScript.characterData.abilities[3].range,true);
                 if(mouseTile != null && mouseTile.selectable)
                 {
                     pathfinding.ResetTiles();
@@ -103,7 +98,7 @@ public class SokkaAbilities : CharacterAbilities
                 }
                 break;
             case 5:
-                pathfinding.Pathfinder(currentTile, attackParameters, 1, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[4].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -209,7 +204,7 @@ public class SokkaAbilities : CharacterAbilities
 
     public void BoomerangHit()
     {
-        currentTarget.TakeDamage(boomerangDamage);
+        currentTarget.TakeDamage(playerScript.characterData.abilities[1].damage);
         playerScript.ActivateAbility(0);
         playerScript.actionPoints = 0;
         currentTarget = null;
@@ -228,7 +223,7 @@ public class SokkaAbilities : CharacterAbilities
     
     public void SwordFinal()
     {
-        currentTarget.TakeDamage(swordDamage + currentTarget.armor);
+        currentTarget.TakeDamage(playerScript.characterData.abilities[2].damage + currentTarget.armor);
         playerScript.ActivateAbility(0);
         playerScript.actionPoints = 0;
         currentTarget = null;
@@ -242,15 +237,17 @@ public class SokkaAbilities : CharacterAbilities
             TileScript playerTile = playerPathfinding.GetCurrentTile();
             if (player.CompareTag(gameObject.tag) && playerTile.selectable)
             {
-                if(player.speedBost <= sneakAttackDuration)
+                if(player.speedBoost <= playerScript.characterData.abilities[3].duration)
                 {
-                    player.speedBost = sneakAttackDuration;
+                    player.speedBoost = playerScript.characterData.abilities[3].duration;
                 }
 
-                player.IncreaseTurnMeter(sneakAttackTurnMeter);
+                player.IncreaseTurnMeter(playerScript.characterData.abilities[3].gainTurnMeter);
             }
         }
 
+        playerScript.CalculateMoveSpeed();
+        uim.UpdateTooltips(playerScript);
         playerScript.ActivateAbility(0);
         playerScript.abilityCooldowns[4] = playerScript.maxAbilityCooldowns[4];
         currentTarget = null;
@@ -276,7 +273,7 @@ public class SokkaAbilities : CharacterAbilities
         TileScript enemyTile = enemyPathfinding.GetCurrentTile();
         string direction = pathfinding.GetDirectionOfAdjacentTile(currentTile, enemyTile);
         TileScript nextTile = enemyTile;
-        for(int i = 0; i < kickPushDistance; i++)
+        for(int i = 0; i < playerScript.characterData.abilities[4].moveEffectRange; i++)
         {
             nextTile = nextTile.GetAdjacentTile(direction);
             if(nextTile != null)
@@ -288,7 +285,7 @@ public class SokkaAbilities : CharacterAbilities
                 }
                 else
                 {
-                    currentTarget.stun += 2;
+                    currentTarget.stun += playerScript.characterData.abilities[4].duration;
                     break;
                 }
             }
@@ -313,7 +310,6 @@ public class SokkaAbilities : CharacterAbilities
     {
         playerScript.FaceCharacter(clickedTile.transform);
         stinkBombTarget = clickedTile;
-        animator.Play("StinkBomb");
         playerScript.ActivateAbility(0);
         playerScript.abilityCooldowns[6] = playerScript.maxAbilityCooldowns[6];
         playerScript.actionPoints = 0;
@@ -322,13 +318,14 @@ public class SokkaAbilities : CharacterAbilities
         stinkBombScript.transform.position = transform.position;
         stinkBombScript.target = stinkBombTarget;
         stinkBombScript.myTeam = gameObject.tag;
+        stinkBombScript.silenceDuration = playerScript.characterData.abilities[5].duration;
     }
 
     void DayOfBlackSunStart()
     {
         playerScript.ultimateActive = false;
         playerScript.ultimateCD = playerScript.maxUltimateCD;
-        dayOfBlackSunDuration = dayOfBlackSunMaxDuration;
+        dayOfBlackSunDuration = playerScript.characterData.ultimate.duration;
         foreach(PlayerScript player in tm.players)
         {
             if (!player.CompareTag(gameObject.tag))
