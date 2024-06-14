@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,7 @@ public class UIManager : MonoBehaviour
 
         for(int i = 0; i < abilities.Count; i++)
         {
-            if(i + 2 < playerScript.actionPointCosts.Count)
+            if(i + 1 < playerScript.characterData.abilities.Count())
             {
                 abilities[i].gameObject.SetActive(true);
                 AbilityButton ability = abilities[i];

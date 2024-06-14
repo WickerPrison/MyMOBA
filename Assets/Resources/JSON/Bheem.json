@@ -1,0 +1,47 @@
+{
+    "name": "character name",
+    "ultimate": {
+        "name": "Ultimate name",
+        "cooldown": 0,
+        "APcost": 1,
+        "description": "This character's ultimate ability",
+        "additions": []
+    },
+    "abilities": [
+        {
+            "name": "Walk",
+            "APcost": 1,
+            "cooldown": 0,
+            "description": "Move up to _moveSpeed tiles. Cannot pass through enemies or obstacles.",
+            "variables": ["_moveSpeed"]
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "additions": []
+        }
+    ]
+}

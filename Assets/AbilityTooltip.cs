@@ -83,7 +83,6 @@ public class AbilityTooltip : MonoBehaviour
 
     public void ShowTooltip()
     {
-        //image.enabled = true;
         abilityName.gameObject.SetActive(true);
         APcost.gameObject.SetActive(true);
         cooldown.gameObject.SetActive(true);
@@ -94,7 +93,6 @@ public class AbilityTooltip : MonoBehaviour
 
     public void HideTooltip()
     {
-        //image.enabled = false;
         abilityName.gameObject.SetActive(false);
         APcost.gameObject.SetActive(false);
         cooldown.gameObject.SetActive(false);
@@ -117,13 +115,25 @@ public class AbilityTooltip : MonoBehaviour
         {
             return input.Replace("_duration", data.duration.ToString());
         });
+        variableDict.Add("_range", (input) =>
+        {
+            return input.Replace("_range", data.range.ToString());
+        });
         variableDict.Add("_gainTurnMeter", (input) =>
         {
             return input.Replace("_gainTurnMeter", data.gainTurnMeter.ToString());
         });
+        variableDict.Add("_loseTurnMeter", (input) =>
+        {
+            return input.Replace("_loseTurnMeter", data.loseTurnMeter.ToString());
+        });
         variableDict.Add("_moveEffectRange", (input) =>
         {
             return input.Replace("_moveEffectRange", data.moveEffectRange.ToString());
+        });
+        variableDict.Add("_percentage", (input) =>
+        {
+            return input.Replace("_percentage", (data.percentage * 100).ToString() + "%");
         });
     }
 }

@@ -12,33 +12,28 @@ public class AmosAbilities : CharacterAbilities
     Grenade grenade;
     TileScript grenadeDestination;
     PlayerScript currentTarget;
-    int attackRange = 3;
-    [SerializeField] int autoshotgunDamage = 6;
 
-    int suppressingFireAmount = 300;
-
-    float iAmThatGuyPercent = 0.4f;
 
     public override void Start()
     {
         base.Start();
-        // auto shotgun cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // grenade cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(2);
-        playerScript.silenceableAbilities.Add(3);
-        // suppresing fire cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(4);
-        playerScript.silenceableAbilities.Add(4);
-        // Rapid fire cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(4);
-        playerScript.silenceableAbilities.Add(5);
+        //// auto shotgun cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// grenade cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(2);
+        //playerScript.silenceableAbilities.Add(3);
+        //// suppresing fire cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(4);
+        //playerScript.silenceableAbilities.Add(4);
+        //// Rapid fire cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(4);
+        //playerScript.silenceableAbilities.Add(5);
 
-        playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
+        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
     }
 
     private void Update()
@@ -55,11 +50,11 @@ public class AmosAbilities : CharacterAbilities
 
         if (playerScript.ultimateActive)
         {
-            pathfinding.Pathfinder(currentTile, attackParameters, attackRange, true);
+            pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.ultimate.range, true);
             if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
             {
                 PlayerScript enemyScript = mouseTile.occupation.GetComponent<PlayerScript>();
-                if (enemyScript.health / enemyScript.maxHealth <= iAmThatGuyPercent)
+                if (enemyScript.health / enemyScript.maxHealth <= playerScript.characterData.ultimate.percentage)
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
                 }
@@ -70,14 +65,14 @@ public class AmosAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                pathfinding.Pathfinder(currentTile, attackParameters, attackRange, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[1].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
                 }
                 break;
             case 3:
-                pathfinding.Pathfinder(currentTile, attackParameters, 3, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[2].range, true);
                 if (mouseTile != null && mouseTile.selectable)
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -92,12 +87,12 @@ public class AmosAbilities : CharacterAbilities
                 if (mouseTile != null && mouseTile.selectable)
                 {
                     string direction = pathfinding.GetDirectionOfAdjacentTile(currentTile, mouseTile);
-                    pathfinding.Cone(mouseTile, attackParameters, 4, direction, false);
+                    pathfinding.Cone(mouseTile, attackParameters, playerScript.characterData.abilities[3].range, direction, false);
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
                 }
                 break;
             case 5:
-                pathfinding.Pathfinder(currentTile, attackParameters, attackRange, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[4].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -161,7 +156,7 @@ public class AmosAbilities : CharacterAbilities
 
     public void AutoShotgunFinish()
     {
-        currentTarget.TakeDamage(autoshotgunDamage);
+        currentTarget.TakeDamage(playerScript.characterData.abilities[1].damage);
         playerScript.ActivateAbility(0);
         playerScript.actionPoints = 0;
         currentTarget = null;
@@ -177,6 +172,7 @@ public class AmosAbilities : CharacterAbilities
         grenade = Instantiate(grenadePrefab).GetComponent<Grenade>();
         grenade.targetTile = grenadeDestination;
         grenade.startingPosition = transform.position;
+        grenade.grenadeDamage = playerScript.characterData.abilities[2].damage;
     }
 
     void SuppressingFireInitiate(TileScript clickedTile)
@@ -197,7 +193,7 @@ public class AmosAbilities : CharacterAbilities
             TileScript playerTile = playerPathfinding.GetCurrentTile();
             if (!player.CompareTag(gameObject.tag) && playerTile.selectable)
             {
-                player.DecreaseTurnMeter(suppressingFireAmount);
+                player.DecreaseTurnMeter(playerScript.characterData.abilities[3].loseTurnMeter);
             }
         }
 
@@ -220,13 +216,13 @@ public class AmosAbilities : CharacterAbilities
 
     public void RapidFireFinish()
     {
-        currentTarget.TakeDamage(autoshotgunDamage);
+        currentTarget.TakeDamage(playerScript.characterData.abilities[4].damage);
     }
 
     void IAmThatGuyInitiate(TileScript clickedTile)
     {
         PlayerScript enemyScript = clickedTile.occupation.GetComponent<PlayerScript>();
-        if (enemyScript != null && !enemyScript.gameObject.CompareTag(gameObject.tag) && enemyScript.health / enemyScript.maxHealth <= iAmThatGuyPercent)
+        if (enemyScript != null && !enemyScript.gameObject.CompareTag(gameObject.tag) && enemyScript.health / enemyScript.maxHealth <= playerScript.characterData.ultimate.percentage)
         {
             playerScript.FaceCharacter(clickedTile.transform);
             currentTarget = enemyScript;

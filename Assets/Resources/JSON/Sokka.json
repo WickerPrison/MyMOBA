@@ -31,6 +31,7 @@
             "name": "Space Sword",
             "APcost": 1,
             "cooldown": 0,
+            "range": 1,
             "description": "Deal _damage damage to an adjacent target. Ignores armor. <b>Finishing</b>",
             "variables": [ "_damage" ],
             "damage": 5,

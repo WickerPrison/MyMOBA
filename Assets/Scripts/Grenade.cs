@@ -18,7 +18,7 @@ public class Grenade : MonoBehaviour
     float arcHeight = 1;
     float throwSpeed = 3.5f;
     bool atDestination = false;
-    [SerializeField] int grenadeDamage = 10;
+    [System.NonSerialized] public int grenadeDamage;
 
 
     private void Start()

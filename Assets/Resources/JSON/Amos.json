@@ -1,0 +1,62 @@
+{
+    "name": "Amos Burton",
+    "ultimate": {
+        "name": "I Am That Guy",
+        "cooldown": 5,
+        "APcost": 1,
+        "range": 3,
+        "percentage": 0.4,
+        "description": "Instantly kill a target within range that has less than _percentage health.",
+        "variables": ["_percentage"]
+    },
+    "abilities": [
+        {
+            "name": "Walk",
+            "APcost": 1,
+            "cooldown": 0,
+            "description": "Move up to _moveSpeed tiles. Cannot pass through enemies or obstacles.",
+            "variables": ["_moveSpeed"]
+        },
+        {
+            "name": "Auto Shotgun",
+            "APcost": 1,
+            "cooldown": 0,
+            "range": 3,
+            "damage": 6,
+            "description": "Deal _damage damage to a target within range. <b>Finishing</b>",
+            "variables": ["_damage"],
+            "additions": ["finishing"]
+        },
+        {
+            "name": "Grenade",
+            "APcost": 1,
+            "cooldown": 2,
+            "range": 3,
+            "damage": 10,
+            "description": "Throw a grenade to a tile within range. At the start of your next turn, it explodes, dealing _damage damage to all adjacent tiles.",
+            "variables": ["_damage"],
+            "silenceable": true
+        },
+        {
+            "name": "Suppressing Fire",
+            "APcost": 1,
+            "cooldown": 4,
+            "range": 4,
+            "loseTurnMeter": 300,
+            "description": "All enemies within a _range tile cone lose _loseTurnMeter Turn Meter.",
+            "variables": [ "_loseTurnMeter", "_range" ],
+            "silenceable": true
+        },
+        {
+            "name": "Rapid Fire",
+            "APcost": 1,
+            "cooldown": 4,
+            "range": 3,
+            "damage":  6,
+            "description": "Deal _damage damage twice to a target within range. <b>Finishing</b>",
+            "variables": [ "_damage" ],
+            "additions": [ "finishing" ],
+            "silenceable": true
+        }
+    ]
+}

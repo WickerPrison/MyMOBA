@@ -22,26 +22,6 @@ public class SokkaAbilities : CharacterAbilities
     public override void Start()
     {
         base.Start();
-        //// boomerang/sword attack cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(0);
-        //// switch weapon cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(0);
-        //// Sneak Attack cost and cooldown
-        //playerScript.actionPointCosts.Add(0);
-        //playerScript.maxAbilityCooldowns.Add(3);
-        //playerScript.silenceableAbilities.Add(4);
-        //// flying kick a pow cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(3);
-        //playerScript.silenceableAbilities.Add(5);
-        //// stink bomb cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(4);
-        //playerScript.silenceableAbilities.Add(6);
-
-        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
 
         uim = tm.gameObject.GetComponent<UIManager>();
 
@@ -93,7 +73,7 @@ public class SokkaAbilities : CharacterAbilities
                 if(mouseTile != null && mouseTile.selectable)
                 {
                     pathfinding.ResetTiles();
-                    pathfinding.Pathfinder(currentTile, buffParameters, 2, false);
+                    pathfinding.Pathfinder(currentTile, buffParameters, playerScript.characterData.abilities[3].range, false);
                     currentTile.UpdateSelectionColor(buffParameters.selectionColor, false);
                 }
                 break;
@@ -105,7 +85,7 @@ public class SokkaAbilities : CharacterAbilities
                 }
                 break;
             case 6:
-                pathfinding.Pathfinder(currentTile, attackParameters, 3, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[5].range, true);
                 if(mouseTile != null && mouseTile.selectable)
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);

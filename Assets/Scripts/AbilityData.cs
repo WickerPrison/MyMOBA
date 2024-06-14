@@ -17,6 +17,8 @@ public class AbilityData
     public int damage;
     public int duration;
     public int gainTurnMeter;
+    public int loseTurnMeter;
+    public float percentage;
     public string description;
     public string[] variables;
     public string[] additions;
