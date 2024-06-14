@@ -9,5 +9,6 @@ public class AbilityData
     public int cooldown;
     public int APcost;
     public string description;
-    public string additions;
+    public string[] variables;
+    public string[] additions;
 }

@@ -1,17 +1,60 @@
 {
     "name": "Kaladin",
     "ultimate": {
-        "name":  "Say the Words",
+        "name": "Say the Words",
         "cooldown": 4,
         "APcost": 2,
-        "Description": "Immediately regain all health and Stormlight"
-    }
+        "description": "Immediately regain all health and Stormlight",
+        "variables": [],
+        "additions": []
+    },
     "abilities": [
         {
             "name": "Windrun",
             "APcost": 1,
-            "Description": "Fly X tiles.",
-            "additions": "Fly"
+            "description": "<u><b>Fly</b></u> moveSpeed tiles.",
+            "variables": [ "moveSpeed" ],
+            "additions": [ "fly" ]
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "variables": [],
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "variables": [],
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "variables": [],
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "variables": [],
+            "additions": []
+        },
+        {
+            "name": "Ability",
+            "APcost": 0,
+            "cooldown": 0,
+            "description": "Ability description",
+            "variables": [],
+            "additions": []
         }
     ]
 }

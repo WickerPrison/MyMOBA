@@ -66,8 +66,8 @@ public class UltimateButton : MonoBehaviour
         abilityIcon.sprite = sprite;
     }
 
-    public void SetupTooltip(AbilityData abilityData)
+    public void SetupTooltip(AbilityData abilityData, PlayerScript playerScript)
     {
-        abilityTooltip.SetupTooltip(abilityData);
+        abilityTooltip.SetupTooltip(abilityData, playerScript);
     }
 }

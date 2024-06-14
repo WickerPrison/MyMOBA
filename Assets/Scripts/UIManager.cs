@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
         portraitImage.sprite = playerScript.portrait;
         walkButton.currentPlayer = playerScript;
         walkButton.abilityNum = 1;
+        walkButton.SetupTooltip(playerScript.characterData.abilities[0], playerScript);
 
         for(int i = 0; i < abilities.Count; i++)
         {
@@ -28,7 +29,7 @@ public class UIManager : MonoBehaviour
                 ability.currentPlayer = playerScript;
                 ability.abilityNum = i + 2;
                 ability.SetIcon(playerScript.abilityIcons[i]);
-                ability.SetupTooltip(playerScript.characterData.abilities[i]);
+                ability.SetupTooltip(playerScript.characterData.abilities[i + 1], playerScript);
             }
             else
             {
@@ -38,7 +39,7 @@ public class UIManager : MonoBehaviour
 
         ultimate.currentPlayer = playerScript;
         ultimate.SetIcon(playerScript.ultimateIcon);
-        ultimate.SetupTooltip(playerScript.characterData.ultimate);
+        ultimate.SetupTooltip(playerScript.characterData.ultimate, playerScript);
         currentPlayer = playerScript;
     }
 

@@ -1,0 +1,6 @@
+{
+    "fly": {
+        "name": "Fly",
+        "description": "Can pass through obstacles, including other characters, but must finish movement on an unobstructed tile."
+    }
+}

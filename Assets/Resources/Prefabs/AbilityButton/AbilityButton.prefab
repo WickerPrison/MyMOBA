@@ -246,7 +246,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 8346257050134895521}
+        - m_Target: {fileID: 148342171975076656}
           m_TargetAssemblyTypeName: AbilityTooltip, Assembly-CSharp
           m_MethodName: ShowTooltip
           m_Mode: 1
@@ -274,7 +274,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 8346257050134895521}
+        - m_Target: {fileID: 148342171975076656}
           m_TargetAssemblyTypeName: AbilityTooltip, Assembly-CSharp
           m_MethodName: HideTooltip
           m_Mode: 1
@@ -1036,6 +1036,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5280238067832539270, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6297828060327461861, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1078,14 +1082,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
---- !u!224 &1828021234299078774 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4390719081838772492, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
-  m_PrefabInstance: {fileID: 2715837827601598842}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8346257050134895521 stripped
+--- !u!114 &148342171975076656 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6224894479663420123, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2864179918987313738, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
   m_PrefabInstance: {fileID: 2715837827601598842}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -1094,3 +1093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556139c3ece1c2e44acedb687714c02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1828021234299078774 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4390719081838772492, guid: 7651e13cdd0cc7443a5e4f0ae910e935, type: 3}
+  m_PrefabInstance: {fileID: 2715837827601598842}
+  m_PrefabAsset: {fileID: 0}
