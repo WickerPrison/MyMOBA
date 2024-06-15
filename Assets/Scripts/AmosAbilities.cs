@@ -13,29 +13,6 @@ public class AmosAbilities : CharacterAbilities
     TileScript grenadeDestination;
     PlayerScript currentTarget;
 
-
-    public override void Start()
-    {
-        base.Start();
-        //// auto shotgun cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(0);
-        //// grenade cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(2);
-        //playerScript.silenceableAbilities.Add(3);
-        //// suppresing fire cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(4);
-        //playerScript.silenceableAbilities.Add(4);
-        //// Rapid fire cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(4);
-        //playerScript.silenceableAbilities.Add(5);
-
-        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
-    }
-
     private void Update()
     {
         if (playerScript.activeAbility <= 1 && !playerScript.ultimateActive)
@@ -216,7 +193,7 @@ public class AmosAbilities : CharacterAbilities
 
     public void RapidFireFinish()
     {
-        currentTarget.TakeDamage(playerScript.characterData.abilities[4].damage);
+        currentTarget.TakeDamage(playerScript.characterData.abilities[1].damage);
     }
 
     void IAmThatGuyInitiate(TileScript clickedTile)

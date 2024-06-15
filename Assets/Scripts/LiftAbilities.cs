@@ -15,16 +15,12 @@ public class LiftAbilities : CharacterAbilities
     int lifelight;
     [SerializeField] int maxLifelight = 7;
 
-    int foodHeistTurnMeter = 300;
-
     TileScript slicknessDestination;
     Vector2 slicknessDirection;
     float slicknessSpeed = 5;
     public bool sliding = false;
     int food = 0;
     int foodMax = 10;
-
-    [SerializeField] int regrowthAmount = 5;
 
     int awesomenessRange = 5;
     int ultimateHealingAmount = 6;
@@ -36,22 +32,22 @@ public class LiftAbilities : CharacterAbilities
         playerMovement = GetComponent<PlayerMovement>();
         stormlightAnimations = GetComponentInChildren<StormlightAnimations>();
 
-        // Food heist cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(1);
-        // Eat pancakes cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // Slickness cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(1);
-        playerScript.silenceableAbilities.Add(4);
-        // Awesomeness cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        playerScript.silenceableAbilities.Add(5);
+        //// Food heist cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(1);
+        //// Eat pancakes cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// Slickness cost and cooldown
+        //playerScript.actionPointCosts.Add(0);
+        //playerScript.maxAbilityCooldowns.Add(1);
+        //playerScript.silenceableAbilities.Add(4);
+        //// Awesomeness cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //playerScript.silenceableAbilities.Add(5);
 
-        playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
+        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
 
         lifelight = maxLifelight;
         uim = tm.gameObject.GetComponent<UIManager>();
@@ -120,7 +116,7 @@ public class LiftAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                pathfinding.Pathfinder(currentTile, pickpocketParameters, 1, true);
+                pathfinding.Pathfinder(currentTile, pickpocketParameters, playerScript.characterData.abilities[1].range, true);
                 if(mouseTile != null && mouseTile.selectable && mouseTile.occupied && mouseTile.occupation != gameObject)
                 {
                     if(mouseTile.occupation.CompareTag("Team1") || mouseTile.occupation.CompareTag("Team2"))
@@ -129,7 +125,7 @@ public class LiftAbilities : CharacterAbilities
                     }
                 }
                 break;
-            case 3:
+            case 3: 
                 currentTile.selectable = true;
                 currentTile.UpdateSelectionColor(3, true);
                 if (mouseTile == currentTile && lifelight < maxLifelight && food > 0)
@@ -138,14 +134,14 @@ public class LiftAbilities : CharacterAbilities
                 }
                 break;
             case 4:
-                pathfinding.Pathfinder(currentTile, slicknessParameters, 4, true);
+                pathfinding.Pathfinder(currentTile, slicknessParameters, playerScript.characterData.abilities[3].moveEffectRange, true);
                 if (mouseTile != null && mouseTile.selectable && !mouseTile.occupied)
                 {
                     mouseTile.UpdateSelectionColor(slicknessParameters.selectionColor, false);
                 }
                 break;
             case 5:
-                pathfinding.Pathfinder(currentTile, healingParameters, 1, true);
+                pathfinding.Pathfinder(currentTile, healingParameters, playerScript.characterData.abilities[4].range, true);
                 currentTile.selectable = true;
                 currentTile.UpdateSelectionColor(healingParameters.selectionColor, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied)
@@ -202,7 +198,7 @@ public class LiftAbilities : CharacterAbilities
             playerScript.actionPoints -= playerScript.actionPointCosts[2];
             playerScript.abilityCooldowns[2] = playerScript.maxAbilityCooldowns[2];
             playerScript.ActivateAbility(0);
-            currentTarget.DecreaseTurnMeter(foodHeistTurnMeter);
+            currentTarget.DecreaseTurnMeter(playerScript.characterData.abilities[1].loseTurnMeter);
             playerScript.characterEvents.Buff();
             food += 5;
             if (food > foodMax)
@@ -240,12 +236,11 @@ public class LiftAbilities : CharacterAbilities
     {
         if (!clickedTile.occupied)
         {
-            playerScript.FaceCharacter(clickedTile.transform);
             slicknessDestination = clickedTile;
             slicknessDirection = slicknessDestination.transform.position - transform.position;
             playerMovement.movePoint.position = transform.position;
             playerScript.abilityCooldowns[4] = playerScript.maxAbilityCooldowns[4];
-            lifelight -= 1;
+            lifelight -= playerScript.characterData.abilities[3].manaCost;
             uim.UpdateMana(lifelight, lifelightColor);
             playerScript.ActivateAbility(0);
             TileScript currentTile = pathfinding.GetCurrentTile();
@@ -294,7 +289,7 @@ public class LiftAbilities : CharacterAbilities
     {
         lifelight -= 2;
         uim.UpdateMana(lifelight, lifelightColor);
-        currentTarget.GetHealed(regrowthAmount);
+        currentTarget.GetHealed(playerScript.characterData.abilities[4].healing);
         currentTarget = null;
         StartCoroutine(Delay(0.3f, stormlightAnimations.EndStormlight));
     }
@@ -340,15 +335,12 @@ public class LiftAbilities : CharacterAbilities
 
     public override bool ShouldBeGreyedOut(int abilityID)
     {
-        if (abilityID == 4 && lifelight < 1)
+        if(lifelight < playerScript.characterData.abilities[abilityID - 1].manaCost)
         {
             return true;
         }
-        else if(abilityID == 5 && lifelight < 2)
-        {
-            return true;
-        }
-        else if(abilityID == 3)
+
+        if(abilityID == 3)
         {
             if(lifelight == maxLifelight || food <= 0)
             {

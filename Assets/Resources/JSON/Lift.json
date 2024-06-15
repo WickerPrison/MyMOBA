@@ -1,11 +1,13 @@
 {
-    "name": "character name",
+    "name": "Lift",
     "ultimate": {
-        "name": "Ultimate name",
-        "cooldown": 0,
+        "name": "Awesomeness",
+        "cooldown": 4,
         "APcost": 1,
-        "description": "This character's ultimate ability",
-        "additions": []
+        "moveEffectRange": 5,
+        "healing": 6,
+        "description": "Lift slides to a tile within _moveEffectRange tiles and heals all adjacent allies for _healing health. She does this 3 times.",
+        "variables": [ "_moveEffectRange", "_healing" ]
     },
     "abilities": [
         {
@@ -16,32 +18,44 @@
             "variables": ["_moveSpeed"]
         },
         {
-            "name": "Ability",
-            "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "name": "Food Heist",
+            "APcost": 1,
+            "cooldown": 1,
+            "range": 1,
+            "loseTurnMeter": 300,
+            "description": "Steal food from an adjacent character. Target loses _loseTurnMeter Turn Meter. Lift gains 5 <b>Pancakes</b>",
+            "variables": ["_loseTurnMeter"],
+            "additions": ["pancakes", "lifelight"]
         },
         {
-            "name": "Ability",
-            "APcost": 0,
+            "name": "Eat Pancakes",
+            "APcost": 1,
             "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "description": "Lift eats as many <b>Pancakes</b> as she can to recover <b>Lifelight</b>.",
+            "additions": [ "pancakes", "lifelight" ]
         },
         {
-            "name": "Ability",
+            "name": "Slickness",
             "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "cooldown": 1,
+            "moveEffectRange": 4,
+            "manaCost": 1,
+            "manaName": "Lifelight",
+            "description": "Slide to a tile up to _moveEffectRange tiles away, ignoring all obstacles.",
+            "variables": ["_moveEffectRange"],
+            "silenceable": true
         },
         {
-            "name": "Ability",
-            "APcost": 0,
+            "name": "Regrowth",
+            "APcost": 1,
             "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "healing": 5,
+            "range": 1,
+            "manaCost": 2,
+            "manaName": "Lifelight",
+            "description": "Heal an adjacent ally for _healing health",
+            "variables": ["_healing"],
+            "silenceable": true
         }
     ]
 }

@@ -11,6 +11,7 @@ public class AbilityTooltip : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI abilityName;
     [SerializeField] TextMeshProUGUI APcost;
+    [SerializeField] TextMeshProUGUI manaCost;
     [SerializeField] TextMeshProUGUI cooldown;
     [SerializeField] TextMeshProUGUI range;
     [SerializeField] TextMeshProUGUI description;
@@ -38,6 +39,12 @@ public class AbilityTooltip : MonoBehaviour
         playerScript = currentPlayer;
         abilityName.text = abilityData.name;
         APcost.text = "AP Cost: " + abilityData.APcost;
+        if (abilityData.manaCost != 0)
+        {
+            manaCost.text = abilityData.manaName + " Cost: " + abilityData.manaCost.ToString();
+        }
+        else manaCost.text = "";
+
         cooldown.text = "Cooldown: " + abilityData.cooldown;
 
         if (abilityData.range != 0)
@@ -85,6 +92,7 @@ public class AbilityTooltip : MonoBehaviour
     {
         abilityName.gameObject.SetActive(true);
         APcost.gameObject.SetActive(true);
+        manaCost.gameObject.SetActive(true);
         cooldown.gameObject.SetActive(true);
         range.gameObject.SetActive(true);
         description.gameObject.SetActive(true);
@@ -95,6 +103,7 @@ public class AbilityTooltip : MonoBehaviour
     {
         abilityName.gameObject.SetActive(false);
         APcost.gameObject.SetActive(false);
+        manaCost.gameObject.SetActive(false);
         cooldown.gameObject.SetActive(false);
         range.gameObject.SetActive(false);  
         description.gameObject.SetActive(false);
@@ -110,6 +119,10 @@ public class AbilityTooltip : MonoBehaviour
         variableDict.Add("_damage", (input) =>
         {
             return input.Replace("_damage", data.damage.ToString());
+        });
+        variableDict.Add("_healing", (input) =>
+        {
+            return input.Replace("_healing", data.healing.ToString());
         });
         variableDict.Add("_duration", (input) =>
         {

@@ -15,7 +15,10 @@ public class AbilityData
     public int range;
     public int moveEffectRange;
     public int damage;
+    public int healing;
     public int duration;
+    public string manaName;
+    public int manaCost;
     public int gainTurnMeter;
     public int loseTurnMeter;
     public float percentage;

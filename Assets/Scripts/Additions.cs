@@ -13,6 +13,8 @@ class Additions
     public Addition livingShardplate;
     public Addition silenced;
     public Addition stunned;
+    public Addition pancakes;
+    public Addition lifelight;
 
     Dictionary<string, Addition> additionDict = new Dictionary<string, Addition>();
 
@@ -35,6 +37,8 @@ class Additions
         additionDict.Add("livingShardplate", livingShardplate);
         additionDict.Add("silenced", silenced);
         additionDict.Add("stunned", stunned);
+        additionDict.Add("pancakes", pancakes);
+        additionDict.Add("lifelight", lifelight);
     }
 }
 

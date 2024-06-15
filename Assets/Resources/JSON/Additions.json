@@ -26,5 +26,13 @@
     "stunned": {
         "name": "Stunned",
         "description": "You cannot use any abilities."
+    },
+    "pancakes": {
+        "name": "Pancakes",
+        "description": "Can be consumed by Lift to produce <b>Lifelight</b>"
+    },
+    "lifelight": {
+        "name": "Lifelight",
+        "description": "Used to fuel Lift's special abilities."
     }
 }
