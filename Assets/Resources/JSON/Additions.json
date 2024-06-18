@@ -34,5 +34,9 @@
     "lifelight": {
         "name": "Lifelight",
         "description": "Used to fuel Lift's special abilities."
-    }
+    },
+    "metal": {
+        "name": "Metal",
+        "description": "Used to fuel the special abilities of Allomancers."
+    } 
 }

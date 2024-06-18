@@ -23,6 +23,9 @@ public class AbilityTooltip : MonoBehaviour
     string descriptionText;
     Additions additions;
     AbilityData data;
+    IDamageCalc damageCalc;
+    IMoveCalc moveCalc;
+    IValueCalc valueCalc;
 
     Dictionary<string, Func<string, string>> variableDict = new Dictionary<string, Func<string, string>>();
 
@@ -35,6 +38,9 @@ public class AbilityTooltip : MonoBehaviour
     public void SetupTooltip(AbilityData abilityData, PlayerScript currentPlayer)
     {
         data = abilityData;
+        damageCalc = currentPlayer.GetComponent<IDamageCalc>();
+        moveCalc = currentPlayer.GetComponent<IMoveCalc>();
+        valueCalc = currentPlayer.GetComponent<IValueCalc>();
 
         playerScript = currentPlayer;
         abilityName.text = abilityData.name;
@@ -120,6 +126,10 @@ public class AbilityTooltip : MonoBehaviour
         {
             return input.Replace("_damage", data.damage.ToString());
         });
+        variableDict.Add("_damageCalc", (input) =>
+        {
+            return input.Replace("_damageCalc", damageCalc.DamageCalc().ToString());
+        });     
         variableDict.Add("_healing", (input) =>
         {
             return input.Replace("_healing", data.healing.ToString());
@@ -144,9 +154,21 @@ public class AbilityTooltip : MonoBehaviour
         {
             return input.Replace("_moveEffectRange", data.moveEffectRange.ToString());
         });
+        variableDict.Add("_moveCalc", (input) =>
+        {
+            return input.Replace("_moveCalc", moveCalc.MoveCalc().ToString());
+        });
         variableDict.Add("_percentage", (input) =>
         {
             return input.Replace("_percentage", (data.percentage * 100).ToString() + "%");
+        });
+        variableDict.Add("_value", (input) =>
+        {
+            return input.Replace("_value", data.value.ToString());
+        });
+        variableDict.Add("_valueCalc", (input) =>
+        {
+            return input.Replace("_valueCalc", valueCalc.ValueCalc().ToString());
         });
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class VinAbilities : CharacterAbilities
+public class VinAbilities : CharacterAbilities, IDamageCalc, IMoveCalc, IValueCalc
 {
     [SerializeField] PathfindingParameters attackParameters;
     [SerializeField] PathfindingParameters flyingParameters;
@@ -15,9 +15,6 @@ public class VinAbilities : CharacterAbilities
     int maxMetals = 5;
     int metals;
     TokenJump tokenJump;
-
-    int glassDaggersRange = 1;
-    [SerializeField] int glassDaggersDamage = 6;
 
     int pewter;
 
@@ -31,27 +28,27 @@ public class VinAbilities : CharacterAbilities
     public override void Start()
     {
         base.Start();
-        // glass daggers cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // metal vial cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(1);
-        // pewter cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(1);
-        playerScript.silenceableAbilities.Add(4);
-        // steel cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        playerScript.silenceableAbilities.Add(5);
-        // duralumin cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(5);
-        playerScript.silenceableAbilities.Add(6);
+        //// glass daggers cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// metal vial cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(1);
+        //// pewter cost and cooldown
+        //playerScript.actionPointCosts.Add(0);
+        //playerScript.maxAbilityCooldowns.Add(1);
+        //playerScript.silenceableAbilities.Add(4);
+        //// steel cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //playerScript.silenceableAbilities.Add(5);
+        //// duralumin cost and cooldown
+        //playerScript.actionPointCosts.Add(0);
+        //playerScript.maxAbilityCooldowns.Add(5);
+        //playerScript.silenceableAbilities.Add(6);
 
 
-        playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
+        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
 
         playerMovement = GetComponent<PlayerMovement>();
         uim = tm.gameObject.GetComponent<UIManager>();
@@ -94,7 +91,7 @@ public class VinAbilities : CharacterAbilities
         switch (playerScript.activeAbility)
         {
             case 2:
-                pathfinding.Pathfinder(currentTile, attackParameters, glassDaggersRange, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[1].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -117,14 +114,8 @@ public class VinAbilities : CharacterAbilities
                 }
                 break;
             case 5:
-                if (duralumin)
-                {
-                    pathfinding.Pathfinder(currentTile, flyingParameters, 3 * metals, true);
-                }
-                else
-                {
-                    pathfinding.Pathfinder(currentTile, flyingParameters, 5, true);
-                }
+
+                pathfinding.Pathfinder(currentTile, flyingParameters, MoveCalc(), true);
 
                 if (mouseTile != null && mouseTile.selectable && !mouseTile.occupied)
                 {
@@ -205,8 +196,14 @@ public class VinAbilities : CharacterAbilities
                 playerScript.abilityCooldowns[6] = playerScript.maxAbilityCooldowns[6];
                 playerScript.ActivateAbility(0);
                 playerScript.characterEvents.CustomEffect(1);
+                uim.UpdateTooltips(playerScript);
                 break;
         }
+    }
+
+    public int DamageCalc()
+    {
+        return playerScript.characterData.abilities[1].damage + pewter;
     }
 
     void GlassDaggersInitiate(TileScript clickedTile)
@@ -222,10 +219,11 @@ public class VinAbilities : CharacterAbilities
 
     public void GlassDaggersFinish()
     {
-        currentTarget.TakeDamage(glassDaggersDamage + pewter);
+        currentTarget.TakeDamage(DamageCalc());
         playerScript.ActivateAbility(0);
         playerScript.actionPoints = 0;
         currentTarget = null;
+        uim.UpdateTooltips(playerScript);
     }
 
     public void MetalVial()
@@ -236,6 +234,18 @@ public class VinAbilities : CharacterAbilities
         playerScript.actionPoints -= playerScript.actionPointCosts[3];
         playerScript.abilityCooldowns[3] = playerScript.maxAbilityCooldowns[3];
         playerScript.ActivateAbility(0);
+    }
+
+    public int ValueCalc()
+    {
+        if (duralumin)
+        {
+            return metals;
+        }
+        else
+        {
+            return playerScript.characterData.abilities[3].value;
+        }
     }
 
     void Pewter()
@@ -261,7 +271,20 @@ public class VinAbilities : CharacterAbilities
             metals = maxMetals;
         }
         uim.UpdateMana(metals, metalColor);
+        uim.UpdateTooltips(playerScript);
         playerScript.CalculateArmor();
+    }
+
+    public int MoveCalc()
+    {
+        if (duralumin)
+        {
+            return 3 * metals;
+        }
+        else
+        {
+           return 5;
+        }
     }
 
     void SteelInitiate(TileScript clickedTile)
@@ -287,6 +310,7 @@ public class VinAbilities : CharacterAbilities
                 metals = maxMetals;
             }
             uim.UpdateMana(metals, metalColor);
+            uim.UpdateTooltips(playerScript);
             playerScript.ActivateAbility(0);
             TileScript currentTile = pathfinding.GetCurrentTile();
             currentTile.occupied = false;
@@ -311,14 +335,25 @@ public class VinAbilities : CharacterAbilities
             return true;
         }
 
-        if(abilityID > 3 && metals < 2)
+        if(abilityID == 4 && metals < playerScript.characterData.abilities[3].manaCost)
         {
             return true;
         }
-        else
+
+        if (abilityID == 5 && metals < playerScript.characterData.abilities[4].manaCost)
         {
-            return false;
+            return true;
         }
+
+        if (abilityID == 6)
+        {
+            if(metals < playerScript.characterData.abilities[3].manaCost || metals < playerScript.characterData.abilities[4].manaCost)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public override void ActivateAbility(int abilityID)

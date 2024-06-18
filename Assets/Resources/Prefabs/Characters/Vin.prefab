@@ -1257,7 +1257,7 @@ MonoBehaviour:
   movementCost: 1
   maxUltimateCD: 3
   ultimateAPCost: 0
-  characterJSON: {fileID: 4900000, guid: a674a8362a882b649856dbbb5deccd7c, type: 3}
+  characterJSON: {fileID: 4900000, guid: 0f5f007dcb697374a8ac6d507775a9f3, type: 3}
   myTeam: 0
   characterSprite: {fileID: 4288531453875011803}
   statusLibrary: {fileID: 11400000, guid: f94a239e3435de24295bb3c3ec25c97a, type: 2}

@@ -15,6 +15,7 @@ class Additions
     public Addition stunned;
     public Addition pancakes;
     public Addition lifelight;
+    public Addition metal;
 
     Dictionary<string, Addition> additionDict = new Dictionary<string, Addition>();
 
@@ -39,6 +40,7 @@ class Additions
         additionDict.Add("stunned", stunned);
         additionDict.Add("pancakes", pancakes);
         additionDict.Add("lifelight", lifelight);
+        additionDict.Add("metal", metal);
     }
 }
 

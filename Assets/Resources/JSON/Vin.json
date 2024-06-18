@@ -1,0 +1,67 @@
+{
+    "name": "Vin",
+    "ultimate": {
+        "name": "One With the Mists",
+        "cooldown": 3,
+        "APcost": 0,
+        "duration": 2,
+        "description": "Immediately regain all <b>Metal</b>. For the next _duration turns, whenever you use <b>Metal</b>, immediately regain all <b>Metal</b>.",
+        "additions": [ "metal" ],
+        "variables": ["_duration"]
+    },
+    "abilities": [
+        {
+            "name": "Walk",
+            "APcost": 1,
+            "cooldown": 0,
+            "description": "Move up to _moveSpeed tiles. Cannot pass through enemies or obstacles.",
+            "variables": ["_moveSpeed"]
+        },
+        {
+            "name": "Glass Daggers",
+            "APcost": 1,
+            "cooldown": 0,
+            "range": 1,
+            "damage": 6,
+            "description": "Deal _damageCalc damage to an adjacent target. <b>Finishing</b>",
+            "variables": ["_damageCalc"],
+            "additions": ["finishing"]
+        },
+        {
+            "name": "Metal Vial",
+            "APcost": 1,
+            "cooldown": 1,
+            "description": "Fully restores Vin's <b>Metal</b>.",
+            "additions": ["metal"]
+        },
+        {
+            "name": "Pewter",
+            "APcost": 0,
+            "cooldown": 1,
+            "manaCost": 2,
+            "value": 2,
+            "manaName": "Metal",
+            "description": "Until the start of your next turn, your armor is increased by _valueCalc and your attacks deal an additional _valueCalc damage.",
+            "variables": ["_valueCalc"],
+            "additions": [],
+            "silenceable": true
+        },
+        {
+            "name": "Steel Push",
+            "APcost": 1,
+            "cooldown": 0,
+            "description": "<b>Fly</b> _moveCalc tiles.",
+            "variables": ["_moveCalc"],
+            "additions": ["fly"],
+            "silenceable": true
+        },
+        {
+            "name": "Duralumin",
+            "APcost": 0,
+            "cooldown": 5,
+            "description": "The next time you use Pewter or Steel Push, consume all <b>Metal</b> and increase the effects of the ability based on how much <b>Metal</b> was consumed.",
+            "additions": ["metal"],
+            "silenceable": true
+        }
+    ]
+}
