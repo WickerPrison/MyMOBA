@@ -28,27 +28,6 @@ public class VinAbilities : CharacterAbilities, IDamageCalc, IMoveCalc, IValueCa
     public override void Start()
     {
         base.Start();
-        //// glass daggers cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(0);
-        //// metal vial cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(1);
-        //// pewter cost and cooldown
-        //playerScript.actionPointCosts.Add(0);
-        //playerScript.maxAbilityCooldowns.Add(1);
-        //playerScript.silenceableAbilities.Add(4);
-        //// steel cost and cooldown
-        //playerScript.actionPointCosts.Add(1);
-        //playerScript.maxAbilityCooldowns.Add(0);
-        //playerScript.silenceableAbilities.Add(5);
-        //// duralumin cost and cooldown
-        //playerScript.actionPointCosts.Add(0);
-        //playerScript.maxAbilityCooldowns.Add(5);
-        //playerScript.silenceableAbilities.Add(6);
-
-
-        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
 
         playerMovement = GetComponent<PlayerMovement>();
         uim = tm.gameObject.GetComponent<UIManager>();

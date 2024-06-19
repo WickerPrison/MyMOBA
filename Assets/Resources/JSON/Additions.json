@@ -27,6 +27,10 @@
         "name": "Stunned",
         "description": "You cannot use any abilities."
     },
+    "sleep": {
+        "name": "Sleep",
+        "description": "You cannot use any abilities."
+    },
     "pancakes": {
         "name": "Pancakes",
         "description": "Can be consumed by Lift to produce <b>Lifelight</b>"
@@ -38,5 +42,9 @@
     "metal": {
         "name": "Metal",
         "description": "Used to fuel the special abilities of Allomancers."
-    } 
+    },
+    "frenzy": {
+        "name": "Frenzy",
+        "description": "You gain an additional action at the start of your turn."
+    }
 }

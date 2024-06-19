@@ -61680,6 +61680,10 @@ PrefabInstance:
       propertyPath: myTeam
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6666729955502310459, guid: b7d9ca32ce03ad64291dac5ddd040d98, type: 3}
+      propertyPath: maxUltimateCD
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7244707956541522316, guid: b7d9ca32ce03ad64291dac5ddd040d98, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: 0.17467794

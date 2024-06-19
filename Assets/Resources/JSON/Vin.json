@@ -50,6 +50,8 @@
             "name": "Steel Push",
             "APcost": 1,
             "cooldown": 0,
+            "manaCost": 2,
+            "manaName": "Metal",
             "description": "<b>Fly</b> _moveCalc tiles.",
             "variables": ["_moveCalc"],
             "additions": ["fly"],

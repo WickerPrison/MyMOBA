@@ -1,11 +1,15 @@
 {
     "name": "character name",
     "ultimate": {
-        "name": "Ultimate name",
-        "cooldown": 0,
+        "name": "Inspiring Song",
+        "cooldown": 4,
         "APcost": 1,
-        "description": "This character's ultimate ability",
-        "additions": []
+        "range": 3,
+        "duration": 2,
+        "gainTurnMeter": 500,
+        "description": "Bheem and all allies within range gain _gainTurnMeter Turn Meter and gain <b>Frenzy</b> for _duration turns.",
+        "additions": [ "frenzy" ],
+        "variables": ["_duration", "_gainTurnMeter"]
     },
     "abilities": [
         {
@@ -16,32 +20,40 @@
             "variables": ["_moveSpeed"]
         },
         {
-            "name": "Ability",
-            "APcost": 0,
+            "name": "Spear",
+            "APcost": 1,
             "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "range": 1,
+            "description": "Deal _damage damage to an adjacent target. <b>Finishing</b>",
+            "variables": [ "_damage" ],
+            "damage": 4,
+            "additions": [ "finishing" ]
         },
         {
-            "name": "Ability",
+            "name": "Holy Thread",
             "APcost": 0,
             "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "healing": 3,
+            "description": "Bheem places the Holy Thread on an adjacent ally or on himself. The wearer of the Holy Thread is healed by _healing whenever Bheem attacks an enemy. Only one character may wear the Holy Thread at a time.",
+            "variables": ["_healing"]
         },
         {
-            "name": "Ability",
-            "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "name": "I Know How Leaves Work",
+            "APcost": 1,
+            "cooldown": 4,
+            "description": "Restore an adjacent ally to full health.",
+            "silenceable": true
         },
         {
-            "name": "Ability",
-            "APcost": 0,
-            "cooldown": 0,
-            "description": "Ability description",
-            "additions": []
+            "name": "Sleep Pot",
+            "APcost": 1,
+            "cooldown": 5,
+            "duration": 2,
+            "range": 3,
+            "description": "Inflict <b>Sleep</b> on a target within range for _duration turns.",
+            "additions": [ "sleep" ],
+            "variables": ["_duration"],
+            "silenceable": true
         }
     ]
 }

@@ -16,6 +16,8 @@ class Additions
     public Addition pancakes;
     public Addition lifelight;
     public Addition metal;
+    public Addition sleep;
+    public Addition frenzy;
 
     Dictionary<string, Addition> additionDict = new Dictionary<string, Addition>();
 
@@ -41,6 +43,8 @@ class Additions
         additionDict.Add("pancakes", pancakes);
         additionDict.Add("lifelight", lifelight);
         additionDict.Add("metal", metal);
+        additionDict.Add("sleep", sleep);
+        additionDict.Add("frenzy", frenzy);
     }
 }
 

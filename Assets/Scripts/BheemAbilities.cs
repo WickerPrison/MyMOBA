@@ -8,11 +8,9 @@ public class BheemAbilities : CharacterAbilities
     [SerializeField] PathfindingParameters buffParameters;
     [SerializeField] Animator animator;
     PlayerScript currentTarget;
-    [SerializeField] int spearDamage = 4;
     [SerializeField] GameObject sleepPotPrefab;
 
     PlayerScript holyThreaded;
-    int holyThreadHealing = 3;
 
     int sleepPotDuration = 2;
 
@@ -22,21 +20,21 @@ public class BheemAbilities : CharacterAbilities
     public override void Start()
     {
         base.Start();
-        // Spear cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // holy thread cost and cooldown
-        playerScript.actionPointCosts.Add(0);
-        playerScript.maxAbilityCooldowns.Add(0);
-        // leaves cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(4);
-        playerScript.silenceableAbilities.Add(4);
-        // sleep pot cost and cooldown
-        playerScript.actionPointCosts.Add(1);
-        playerScript.maxAbilityCooldowns.Add(5);
+        //// Spear cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// holy thread cost and cooldown
+        //playerScript.actionPointCosts.Add(0);
+        //playerScript.maxAbilityCooldowns.Add(0);
+        //// leaves cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(4);
+        //playerScript.silenceableAbilities.Add(4);
+        //// sleep pot cost and cooldown
+        //playerScript.actionPointCosts.Add(1);
+        //playerScript.maxAbilityCooldowns.Add(5);
 
-        playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
+        //playerScript.abilityCooldowns = new int[playerScript.maxAbilityCooldowns.Count];
 
         holyThreaded = playerScript;
     }
@@ -55,11 +53,11 @@ public class BheemAbilities : CharacterAbilities
 
         if (playerScript.ultimateActive)
         {
-            pathfinding.Pathfinder(currentTile, buffParameters, 3, true);
+            pathfinding.Pathfinder(currentTile, buffParameters, playerScript.characterData.ultimate.range, true);
             if(mouseTile != null && mouseTile.selectable)
             {
                 pathfinding.ResetTiles();
-                pathfinding.Pathfinder(currentTile, buffParameters, 3, false);
+                pathfinding.Pathfinder(currentTile, buffParameters, playerScript.characterData.ultimate.range, false);
                 currentTile.UpdateSelectionColor(buffParameters.selectionColor, false);
             }
         }
@@ -96,7 +94,7 @@ public class BheemAbilities : CharacterAbilities
                 }
                 break;
             case 5:
-                pathfinding.Pathfinder(currentTile, attackParameters, 3, true);
+                pathfinding.Pathfinder(currentTile, attackParameters, playerScript.characterData.abilities[4].range, true);
                 if (mouseTile != null && mouseTile.selectable && mouseTile.occupied && !mouseTile.occupation.CompareTag(gameObject.tag))
                 {
                     mouseTile.UpdateSelectionColor(attackParameters.selectionColor, false);
@@ -150,8 +148,8 @@ public class BheemAbilities : CharacterAbilities
 
     public void SpearFinish()
     {
-        holyThreaded.GetHealed(holyThreadHealing);
-        currentTarget.TakeDamage(spearDamage);
+        holyThreaded.GetHealed(playerScript.characterData.abilities[2].healing);
+        currentTarget.TakeDamage(playerScript.characterData.abilities[1].damage);
         currentTarget = null;
     }
 
